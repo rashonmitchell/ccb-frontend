@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="oldstyle.css">
+    <!-- <script>
+        function apiData(){
+            fetch('https://church-api-259619.appspot.com/api')
+            .then((response) => {
+                return response.json();
+            })
+            .then((myJson) => {
+                let html = '';
+                let groups = myJson.response.items.item;
+                console.log(groups);
+
+                groups.forEach(group => {
+                    html += `
+                        <li>${group}</li>
+                    `;
+                });
+                document.getElementById('myData').innerHTML = html;
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
+        apiData();
+    </script> -->
+    <!-- <script>
+        fetch('https://church-api-259619.appspot.com/api')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                appendData(data);
+            })
+            .catch(function (err) {
+                console.log('error: ' + err);
+            });
+
+        function appendData(data) {
+            var mainContainer = document.getElementById("myData");
+            for (var i = 0; i < data.length; i++) {
+                var div = document.createElement("div");
+                div.innerHTML = 'Name: ' + data[i].items.item + ' ' + data[i].lastName;
+                mainContainer.appendChild(div);
+            }
+        }
+    </script> 
+
+
+<script>
+        fetch('https://church-api-259619.appspot.com/api')
+        .then((response) => {
+            return response.json();
+        })
+        .then((myJson) => {
+            // let groups = myJson.response.items.item;
+            // console.log(groups);
+            appendData(myJson);
+        });
+        function appendData(myJson) {
+            var mainContainer = document.getElementById("myData");
+            for (var i = 0; i < myJson.length; i++) {
+                var div = document.createElement("div");
+                div.innerHTML = 'Name: ' + myJson[i].items.item + ' ' + myJson[i];
+                mainContainer.appendChild(div);
+            }
+        }
+    </script>-->
+</head>
+<body>
+    <div id="lg-to-the-top" class="lifegroups-search ">
+        <section class="announcement">
+          <div class="row">
+            <div class="medium-12 columns">
+              <div class="wrapper">
+                <p>Take your first step to become a LifeGroup leader today.</p>
+                <a class="small-button m-l-half" target="_blank" href="https://lifechurch.formstack.com/forms/serve">Start a LifeGroup</a>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- react-empty: 29 -->
+        <div class="sticky-outer-wrapper">
+          <div class="sticky-inner-wrapper" style="position: relative; transform: translate3d(0px, 0px, 0px);">
+            <div class="lg-search-options">
+              <div class="row column small-12 small-centered lg-search-container">
+                <div class="lg-filter-header-container">
+                  <h2 class="lg-header">Find a LifeGroup</h2>
+                  <p class="lg-found-text">
+                    <!-- react-text: 130 -->3163<!-- /react-text --><!-- react-text: 37 --> LifeGroups Found<!-- /react-text -->
+                  </p>
+                  <div class="lg-search-filters">
+                    <div class="lg-checkbox-group-container" tabindex="-1">
+                      <p class="mobile-days-text">Which days of the week are you available?</p>
+                      <div class="lg-checkbox-group day lg-grey">
+                        <!-- react-text: 42 -->Meets On <!-- /react-text --><span class="lg-down-arrow-zone"><span class="lg-down-arrow"></span></span>
+                      </div>
+                      <div class="lg-checkbox-container day m-b-1 lg-hide-dropwdown">
+                        <p class="lg-checkbox-group-text desktop-days-text">Which days of the week are you available?</p>
+                        <div class="lg-day-checkbox-container">
+                          <div class="checkbox-div"><input type="checkbox" id="su" value="Su" class="lg-hidden-checkbox"><label for="su" class="lg-checkbox lg-day-checkbox">Sun</label></div>
+                          <div class="checkbox-div"><input type="checkbox" id="mo" value="Mo" class="lg-hidden-checkbox"><label for="mo" class="lg-checkbox lg-day-checkbox">Mon</label></div>
+                          <div class="checkbox-div"><input type="checkbox" id="tu" value="Tu" class="lg-hidden-checkbox"><label for="tu" class="lg-checkbox lg-day-checkbox">Tue</label></div>
+                          <div class="checkbox-div"><input type="checkbox" id="we" value="We" class="lg-hidden-checkbox"><label for="we" class="lg-checkbox lg-day-checkbox">Wed</label></div>
+                          <div class="checkbox-div"><input type="checkbox" id="th" value="Th" class="lg-hidden-checkbox"><label for="th" class="lg-checkbox lg-day-checkbox">Thur</label></div>
+                          <div class="checkbox-div"><input type="checkbox" id="fr" value="Fr" class="lg-hidden-checkbox"><label for="fr" class="lg-checkbox lg-day-checkbox">Fri</label></div>
+                          <div class="checkbox-div"><input type="checkbox" id="sa" value="Sa" class="lg-hidden-checkbox"><label for="sa" class="lg-checkbox lg-day-checkbox">Sat</label></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="Select dropdown undefined has-value Select--single">
+                      <div class="Select-control">
+                        <div class="Select-multi-value-wrapper" id="react-select-3--value">
+                          <div class="Select-value"><span class="Select-value-label" role="option" aria-selected="true" id="react-select-3--value-item">All locations</span></div>
+                          <div aria-expanded="false" aria-owns="" aria-activedescendant="react-select-3--value" aria-disabled="false" class="Select-input" role="combobox" tabindex="0" style="border: 0px; width: 1px; display: inline-block;"></div>
+                        </div>
+                        <span class="Select-arrow-zone"><span class="Select-arrow"></span></span>
+                      </div>
+                    </div>
+                    <div class="lg-checkbox-group-container lc-categories-container" tabindex="-1">
+                      <div class="lg-checkbox-group category lg-grey">
+                        <!-- react-text: 78 -->Categories <!-- /react-text --><span class="lg-down-arrow-zone"><span class="lg-down-arrow"></span></span>
+                      </div>
+                      <div class="lg-checkbox-container category m-b-1 lg-hide-dropwdown">
+                        <p class="lg-checkbox-group-text desktop-categories-text">Categories</p>
+                        <div class="lg-category-checkbox-container">
+                          <div class="checkbox-div"><input type="checkbox" id="everyone welcome" value="everyone welcome" class="lg-hidden-checkbox"><label for="everyone welcome" class="lg-checkbox lg-category-checkbox lg-category-everyone-welcome">Everyone Welcome</label></div>
+                          <div class="checkbox-div"><input type="checkbox" id="women's" value="women's" class="lg-hidden-checkbox"><label for="women's" class="lg-checkbox lg-category-checkbox lg-category-womens">Women's</label></div>
+                          <div class="checkbox-div"><input type="checkbox" id="men's" value="men's" class="lg-hidden-checkbox"><label for="men's" class="lg-checkbox lg-category-checkbox lg-category-mens">Men's</label></div>
+                          <div class="checkbox-div"><input type="checkbox" id="single's" value="single's" class="lg-hidden-checkbox"><label for="single's" class="lg-checkbox lg-category-checkbox lg-category-singles">Singles</label></div>
+                          <div class="checkbox-div"><input type="checkbox" id="married" value="married" class="lg-hidden-checkbox"><label for="married" class="lg-checkbox lg-category-checkbox lg-category-married">Married</label></div>
+                          <div class="checkbox-div"><input type="checkbox" id="shared interest" value="shared interest" class="lg-hidden-checkbox"><label for="shared interest" class="lg-checkbox lg-category-checkbox lg-category-shared-interest">Shared Interests</label></div>
+                          <div class="checkbox-div"><input type="checkbox" id="parents" value="parents" class="lg-hidden-checkbox"><label for="parents" class="lg-checkbox lg-category-checkbox lg-category-parents">Parents</label></div>
+                          <div class="checkbox-div"><input type="checkbox" id="young adults" value="young adults" class="lg-hidden-checkbox"><label for="young adults" class="lg-checkbox lg-category-checkbox lg-category-young-adults">Young Adults</label></div>
+                          <div class="checkbox-div"><input type="checkbox" id="college" value="college" class="lg-hidden-checkbox"><label for="college" class="lg-checkbox lg-category-checkbox lg-category-college">College</label></div>
+                          <div class="checkbox-div"><input type="checkbox" id="connect locally" value="connect locally" class="lg-hidden-checkbox"><label for="connect locally" class="lg-checkbox lg-category-checkbox lg-category-connect-locally">Connect Locally</label></div>
+                        </div>
+                        <div class="p-a-1">
+                          <p class="lg-checkbox-group-text p-b-1">Kids Welcome</p>
+                          <div class="checkbox kids-welcome custom-checkbox"><input type="checkbox" id="children-welcome" value="false" class="lg-hidden-checkbox"><label for="children-welcome" class="lg-custom-checkbox lg-checkbox-children-welcome lg-active">Kids are welcome at our LifeGroup.</label></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="lg-input-container">
+                      <div class="lg-inputs"><input type="text" class="lg-form-keyword" id="lg-keyword" placeholder="Keyword" value=""><input type="text" class="lg-form-age m-l-1" id="lg-age" placeholder="Age" maxlength="3" pattern="\d*" value=""></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</body>
+</html>

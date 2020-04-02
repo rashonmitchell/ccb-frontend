@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+​
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CC Lifegroup Frontend</title>
+
+  <style>
+    * {
+        box-sizing: border-box;
+      }
+
+    h3 {
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+      /* Float four columns side by side */
+    .column {
+      float: left;
+      /* width: 31%; */
+      width: 33.33%;
+      padding: 0 20px;
+      margin: 20px 0;
+    }
+
+    /* Remove extra left and right margins, due to padding */
+    .row {
+      /* margin: 0 -5px; */
+      /* margin: auto; */
+      width: 100%;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    /* Responsive columns */
+    @media screen and (max-width: 800px) {
+      .column {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+      }
+    }
+
+    /* Style the counter cards */
+    .card {
+      border-radius: 6px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
+      height: 409px;
+      padding: 15px;
+      text-align: center;
+      background-color: #fff;
+    }
+    .small {
+      font-size: 10px;
+    }
+    ul {
+      list-style-type: none;
+      text-align: left;
+    }
+    .flip-container {
+      -webkit-perspective: 1000;
+      -moz-perspective: 1000;
+      -o-perspective: 1000;
+      perspective: 1000;
+    }
+    .flip-container {
+      min-height: 120px;
+    }
+    .flipper {
+      -moz-transform: perspective(1000px);
+      -moz-transform-style: preserve-3d;
+      position: relative;
+    }
+    .front,
+    .back {
+      -webkit-backface-visibility: hidden;
+      -moz-backface-visibility: hidden;
+      -o-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-transition: 0.6s;
+      -webkit-transform-style: preserve-3d;
+      -moz-transition: 0.6s;
+      -moz-transform-style: preserve-3d;
+      -o-transition: 0.6s;
+      -o-transform-style: preserve-3d;
+      -ms-transition: 0.6s;
+      -ms-transform-style: preserve-3d;
+      transition: 0.6s;
+      transform-style: preserve-3d;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+    .back {
+      -webkit-transform: rotateY(-180deg);
+      -moz-transform: rotateY(-180deg);
+      -o-transform: rotateY(-180deg);
+      -ms-transform: rotateY(-180deg);
+      transform: rotateY(-180deg);
+      position: absolute;
+    }
+    .flip-container.flipped .back {
+      -webkit-transform: rotateY(0deg);
+      -moz-transform: rotateY(0deg);
+      -o-transform: rotateY(0deg);
+      -ms-transform: rotateY(0deg);
+      transform: rotateY(0deg);
+    }
+    .flip-container.flipped .front {
+      -webkit-transform: rotateY(180deg);
+      -moz-transform: rotateY(180deg);
+      -o-transform: rotateY(180deg);
+      -ms-transform: rotateY(180deg);
+      transform: rotateY(180deg);
+    }
+    .front {
+      z-index: 2;
+    }
+    .more-info-btn {
+      background: transparent;
+      border: none;
+      color: rgb(46, 161, 222);
+      font-style: italic;
+      padding: 10px 15px;
+      position: absolute;
+      right: 0;
+      text-align: right;
+      bottom: 0;
+    }
+    .back-btn {
+      background: transparent;
+      border: none;
+      color: rgb(46, 161, 222);
+      font-style: italic;
+      padding: 10px 15px;
+      position: absolute;
+      right: 0;
+      text-align: right;
+      top: 0;
+    }
+    .more-info-btn:focus,
+    .back-btn:focus {
+      outline: none;
+    }
+    input[type=text] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: none;
+      border-bottom: 2px solid darkgrey;
+    }
+    input[type=text]:focus {
+      border: 3px solid #555;
+    }
+    .submit-btn {
+      float: right;
+      padding: 10px 15px;
+      /* bottom: 10px;
+      position: absolute;
+      right: 15px;
+      text-align: right; */
+    } 
+    .fade-enter-active, .fade-leave-active {
+      transition: all .3s ease;
+      /* transition: opacity .5s, transform 2s ease; */
+      /* transition-timing-function: ease-out; */
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+      transition: all .3s ease;
+      opacity: 0;
+      /* transition-timing-function: ease-in; */
+    }
+    
+  </style>
+</head>
+​
+<body>
+  <div id="app" class="row">
+<!-- fitler container -->
+    <div>
+      <select name="" id="" aria-label="Select menu example" aria-placeholder="Meets On" style="font-size: 14px;">
+        <option v-bind:value="key" v-for="(value, key) in meetingDays" aria-placeholder="Meets On">{{key}}</option>
+      </select>
+
+      <p style="color: #2eb2ff;">{{groups.length}}  Life Groups Active</p>
+    </div>
+<!-- fitler container end-->
+<!-- cards start -->
+    <div v-for="(group, index) in groups" :key="`group-key-${index}`" class="column">
+      <div class="flip-container" v-bind:class="{ flipped: group.flipped }">
+        <div class="flipper">
+          <!-- front start -->
+          <div class="front card">
+            <h3 style="height: 40px;">{{ group.name }} </h3>
+            <img src="https://www.w3schools.com/w3images/team2.jpg" alt="Jane" style="width:50%; margin-top:13px;">
+            <h3>LED BY {{ group.owner_name }} </h3>
+            <hr style="border: 1px solid #2ea1de; width: 75%;">
+            <ul>
+              <li><b>Type:</b> {{ group.group_type_name }}</li>
+              <li><b>When:</b> {{ group.meet_day_name | fieldFilter('TBA')}} {{ group.meet_time_name | fieldFilter('')}}</li>
+              <li><b>Where:</b> {{ group.area_name | fieldFilter('TBA')}}</li>
+              <li>*Additional Notes</li>
+            </ul>
+            <slot name="front"></slot>
+            <button class="more-info-btn" 
+                v-on:click="flipped(group, index)">
+                <b>More Info  &gt;&gt;</b>
+            </button>
+          </div>
+          <!-- front end -->
+          <!-- back start -->
+          <div class="back card">
+            <slot name="back"></slot>
+            <button class="back-btn" 
+                v-on:click="flipped(group, index)">
+                <b>&lt;&lt; Back</b>
+            </button>
+            <p class="" style="font-size: 18px; padding: 0 14px;">{{ group.description | fieldFilter('City Church Life Group')}}</p>
+            <div><p>WATCH VIDEO</p></div>
+            <div><p>CONTACT LEADER</p></div>
+
+            <!-- form start -->
+            <div>
+              <button v-on:click="extendForm(group, index)">
+                <p >REGISTER NOW</p>
+              </button>
+              <transition name="fade" v-if="group.formExtended">
+                <div>
+                  <input type="text" placeholder="First Name">
+                  <input type="text" placeholder="Last Name">
+                  <input type="text" placeholder="Email">
+                  <button @click="addUserToGroup" class="submit-btn">Submit</button>
+                </div>
+              </transition>
+            </div>
+            <!-- form end -->
+          </div>
+          <!-- back end -->
+        </div>
+      </div>
+    </div>
+    <!-- cards end -->
+  </div>
+​
+  <!-- production version, optimized for size and speed -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue" async></script> -->
+
+  <!-- development version, includes helpful console warnings -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" async></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+          groups: [],
+          meetingDays: {},
+        },
+        filters: {
+          // description(description) {
+          //   return !description || (typeof description != 'string') ? 'City Church Life Group' : description;
+          // },
+          fieldFilter(value, defaultValue) {
+            return !value || (typeof value != 'string') ? defaultValue : value;
+          },
+        },
+        computed:{
+          meetingDaysList() {
+            //console.log(Object.keys(this.meetingDays), "this is the computed value");
+            //console.log(typeof this.meetingDays)
+            return Object.keys(this.meetingDays)
+          },
+        },
+        methods: {
+          flipped(group, index) {
+            group.flipped = !group.flipped
+            Vue.set(this.groups, index, group)
+            //console.log(group, 'method flipped')
+          },
+          extendForm(group, index){ 
+            group.formExtended = !group.formExtended
+            Vue.set(this.groups, index, group)
+          },
+          getGroups() {
+            //fetch('https://marine-access-259619.appspot.com/api')
+            fetch('http://localhost:8000/api')
+              .then(response =>  response.json() )
+              .then(myJson => {
+                this.groups = myJson.response.items.item
+                this.groups = this.groups.map(group => {
+                  group.flipped = false;
+                  group.formExtended = false;
+
+                  if(typeof group.meet_day_name == 'string'){
+                    this.meetingDays[group.meet_day_name] = null;
+                  }else{
+                    this.meetingDays['TBA'] = null;
+                  }
+
+                  return group;
+                });
+                //console.log(this.groups);
+                //console.log(this.meetingDays);
+              });
+          },
+          async addUserToGroup() {
+            const response = await fetch('http://localhost:8000/api/group/add/user', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: JSON.stringify({'TEST YO': true})
+            })
+            const data = await response.json();
+            console.log(data);
+          },
+        },
+        created() {
+            this.getGroups();
+        }
+      })
+  </script>
+</body>
+​
+</html>
+
+<!-- {
+    "item_id":"1470",
+    "id":"1470",
+    "name":"Alexa Hopwood - Lakeview",
+    "group_type_name":"Life Group",
+    "grouping_name":"Life Groups",
+    "area_name":"Lakeview",
+    "meet_day_name":"Every Other Thursday",
+    "meet_time_name":"Evening",
+    "description":"Women's Devotionals",
+    "status_id":"1",
+    "messaging_type":"Announce",
+    "membership_type":"Request",
+    "owner_name":"Alexa Hopwood",
+    "owner_email_primary":"alexavalcastrillon@gmail.com"
+}, -->
+
