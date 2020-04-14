@@ -16,7 +16,7 @@
       font-size: 16px;
       text-transform: uppercase;
     }
-      /* Float four columns side by side */
+      /* Float four columns side by side */ 
     .column {
       float: left;
       /* width: 31%; */
@@ -234,10 +234,10 @@
               </button>
               <transition name="fade" v-if="group.formExtended">
                 <div>
-                  <input type="text" placeholder="First Name">
-                  <input type="text" placeholder="Last Name">
-                  <input type="text" placeholder="Email">
-                  <button @click="addUserToGroup" class="submit-btn">Submit</button>
+                  <input type="text" placeholder="First Name" v-model="group.currentUser.first_name">
+                  <input type="text" placeholder="Last Name" v-model="group.currentUser.last_name">
+                  <input type="text" placeholder="Email" v-model="group.currentUser.email">
+                  <button @click="addUserToGroup(group)" class="submit-btn">Submit</button>
                 </div>
               </transition>
             </div>
@@ -262,6 +262,7 @@
         data: {
           groups: [],
           meetingDays: {},
+          
         },
         filters: {
           // description(description) {
@@ -303,6 +304,11 @@
                   }else{
                     this.meetingDays['TBA'] = null;
                   }
+                  group.currentUser = {
+                    first_name: null,
+                    last_name: null,
+                    email: null
+                  };
 
                   return group;
                 });
@@ -310,14 +316,15 @@
                 //console.log(this.meetingDays);
               });
           },
-          async addUserToGroup() {
+          async addUserToGroup(group) {
+            //console.log(group.currentUser);
             const response = await fetch('http://localhost:8000/api/group/add/user', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
                 // 'Content-Type': 'application/x-www-form-urlencoded',
               },
-              body: JSON.stringify({'TEST YO': true})
+              body: JSON.stringify(group.currentUser)
             })
             const data = await response.json();
             console.log(data);
