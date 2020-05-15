@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 ​
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +10,15 @@
 
   <style>
     * {
-        box-sizing: border-box;
-      }
+      box-sizing: border-box;
+    }
 
     h3 {
       font-size: 16px;
       text-transform: uppercase;
     }
-      /* Float four columns side by side */ 
+
+    /* Float four columns side by side */
     .column {
       float: left;
       /* width: 31%; */
@@ -57,27 +59,33 @@
       text-align: center;
       background-color: #fff;
     }
+
     .small {
       font-size: 10px;
     }
+
     ul {
       list-style-type: none;
       text-align: left;
     }
+
     .flip-container {
       -webkit-perspective: 1000;
       -moz-perspective: 1000;
       -o-perspective: 1000;
       perspective: 1000;
     }
+
     .flip-container {
       min-height: 120px;
     }
+
     .flipper {
       -moz-transform: perspective(1000px);
       -moz-transform-style: preserve-3d;
       position: relative;
     }
+
     .front,
     .back {
       -webkit-backface-visibility: hidden;
@@ -98,6 +106,7 @@
       left: 0;
       width: 100%;
     }
+
     .back {
       -webkit-transform: rotateY(-180deg);
       -moz-transform: rotateY(-180deg);
@@ -106,6 +115,7 @@
       transform: rotateY(-180deg);
       position: absolute;
     }
+
     .flip-container.flipped .back {
       -webkit-transform: rotateY(0deg);
       -moz-transform: rotateY(0deg);
@@ -113,6 +123,7 @@
       -ms-transform: rotateY(0deg);
       transform: rotateY(0deg);
     }
+
     .flip-container.flipped .front {
       -webkit-transform: rotateY(180deg);
       -moz-transform: rotateY(180deg);
@@ -120,9 +131,11 @@
       -ms-transform: rotateY(180deg);
       transform: rotateY(180deg);
     }
+
     .front {
       z-index: 2;
     }
+
     .more-info-btn {
       background: transparent;
       border: none;
@@ -134,6 +147,7 @@
       text-align: right;
       bottom: 0;
     }
+
     .back-btn {
       background: transparent;
       border: none;
@@ -145,10 +159,12 @@
       text-align: right;
       top: 0;
     }
+
     .more-info-btn:focus,
     .back-btn:focus {
       outline: none;
     }
+
     input[type=text] {
       width: 100%;
       padding: 12px 20px;
@@ -157,9 +173,11 @@
       border: none;
       border-bottom: 2px solid darkgrey;
     }
+
     input[type=text]:focus {
       border: 3px solid #555;
     }
+
     .submit-btn {
       float: right;
       padding: 10px 15px;
@@ -167,36 +185,55 @@
       position: absolute;
       right: 15px;
       text-align: right; */
-    } 
-    .fade-enter-active, .fade-leave-active {
+    }
+
+    .fade-enter-active,
+    .fade-leave-active {
       transition: all .3s ease;
       /* transition: opacity .5s, transform 2s ease; */
       /* transition-timing-function: ease-out; */
     }
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+    .fade-enter,
+    .fade-leave-to
+
+    /* .fade-leave-active below version 2.1.8 */
+      {
       transition: all .3s ease;
       opacity: 0;
       /* transition-timing-function: ease-in; */
     }
-    
   </style>
 </head>
 ​
+
 <body>
   <div id="app" class="row">
-<!-- fitler container -->
+    <!-- fitler container -->
+    <form v-on:submit="">
+      <div style="width: 50%;">
+        <input type="text" class="form-control" placeholder="Enter key word  ..." v-model="search"
+          v-on:keyup="getfilteredData">
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </form>
+
     <div>
-      <select name="" id="" aria-label="Select menu example" aria-placeholder="Meets On" style="font-size: 14px;" v-model="selectedDay">
+      <select name="" id="" aria-label="Select menu example" aria-placeholder="Meets On" style="font-size: 14px;"
+        v-model="selectedDay">
         <option v-bind:value="key" v-for="(value, key) in meetingDays" aria-placeholder="Meets On">{{key}}</option>
+        <!-- <option v-bind:value="key" v-for="day in meetingDays" aria-placeholder="Meets On">{{ day }}</option> -->
       </select>
       <button @click="clearFilters">
         Clear Filters
       </button>
 
-      <p style="color: #2eb2ff;">{{filteredGroups.length}}  Life Groups Active</p>
+      <p style="color: #2eb2ff;">{{filteredGroups.length}} Life Groups Active</p>
     </div>
-<!-- fitler container end-->
-<!-- cards start -->
+    <!-- fitler container end-->
+    <!-- cards start -->
     <div v-for="(group, index) in filteredGroups" :key="`group-key-${index}`" class="column">
       <div class="flip-container" v-bind:class="{ flipped: group.flipped }">
         <div class="flipper">
@@ -208,40 +245,61 @@
             <hr style="border: 1px solid #2ea1de; width: 75%;">
             <ul>
               <li><b>Type:</b> {{ group.group_type_name }}</li>
-              <li><b>When:</b> {{ group.meet_day_name | fieldFilter('NA')}} {{ group.meet_time_name | fieldFilter('')}}</li>
+              <li><b>When:</b> {{ group.meet_day_name | fieldFilter('NA')}} {{ group.meet_time_name | fieldFilter('')}}
+              </li>
               <li><b>Where:</b> {{ group.area_name | fieldFilter('NA')}}</li>
               <li>*Additional Notes</li>
             </ul>
             <slot name="front"></slot>
-            <button class="more-info-btn" 
-                v-on:click="flipped(group, index)">
-                <b>More Info  &gt;&gt;</b>
+            <button class="more-info-btn" v-on:click="flipped(group, index)">
+              <b>More Info &gt;&gt;</b>
             </button>
           </div>
           <!-- front end -->
           <!-- back start -->
           <div class="back card">
             <slot name="back"></slot>
-            <button class="back-btn" 
-                v-on:click="flipped(group, index)">
-                <b>&lt;&lt; Back</b>
+            <button class="back-btn" v-on:click="flipped(group, index)">
+              <b>&lt;&lt; Back</b>
             </button>
-            <p class="" style="font-size: 18px; padding: 0 14px;">{{ group.description | fieldFilter('City Church Life Group')}}</p>
-            <div><p>WATCH VIDEO</p></div>
-            <div><p>CONTACT LEADER</p></div>
+            <p class="" style="font-size: 18px; padding: 0 14px;">
+              {{ group.description | fieldFilter('City Church Life Group')}}</p>
+            <div>
+              <p>WATCH VIDEO</p>
+            </div>
+            <div>
+              <p>CONTACT LEADER</p>
+            </div>
 
             <!-- form start -->
             <div>
               <button v-on:click="extendForm(group, index)">
-                <p >REGISTER NOW</p>
+                <p>REGISTER NOW</p>
               </button>
               <transition name="fade" v-if="group.formExtended">
-                <div>
+                <div class="g-recaptcha" data-sitekey="6Lc-fvcUAAAAAC2Db4jSM5Ch6YB_OSSgXErkPgQc">
                   <input type="text" placeholder="First Name" v-model="group.currentUser.first_name">
                   <input type="text" placeholder="Last Name" v-model="group.currentUser.last_name">
                   <input type="text" placeholder="Email" v-model="group.currentUser.email">
+                  <!-- <vue-recaptcha
+                    ref="recaptcha"
+                    @verify="onCaptchaVerified"
+                    @expired="onCaptchaExpired"
+                    size="invisible"
+                    sitekey="6Lc-fvcUAAAAAC2Db4jSM5Ch6YB_OSSgXErkPgQc">
+                  </vue-recaptcha> -->
                   <button @click="addUserToGroup(group, index)" class="submit-btn">Submit</button>
                 </div>
+                <!-- <div class="input-group">
+                <vue-recaptcha
+                  ref="recaptcha"
+                  @verify="onCaptchaVerified"
+                  @expired="onCaptchaExpired"
+                  size="invisible"
+                  sitekey="6LfJA0gUAAAAAA4YDXBubWMll55x5xLpyzu6n60G">
+                </vue-recaptcha>
+                <button :disabled="status==='submitting'" type="submit" class="button">sign up</button>
+              </div> -->
               </transition>
             </div>
             <!-- form end -->
@@ -252,111 +310,132 @@
     </div>
     <!-- cards end -->
   </div>
-​
+  ​
   <!-- production version, optimized for size and speed -->
   <!-- <script src="https://cdn.jsdelivr.net/npm/vue" async></script> -->
 
   <!-- development version, includes helpful console warnings -->
   <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" async></script> -->
+  <!-- <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script>
+  <script src="https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js"></script> -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script>
     var app = new Vue({
-        el: '#app',
-        data: {
-          groups: [],
-          meetingDays: {},
-          selectedDay: null,
-          filteredGroups: []
+      el: '#app',
+      data: {
+        groups: [],
+        meetingDays: {},
+        selectedDay: null,
+        filteredGroups: [],
+        search: '',
+      },
+      watch: {
+        selectedDay(newValue) {
+          this.filteredGroups = this.groups.filter(function (group) {
+            return group.meet_day_name == newValue;
+          })
+        }
+      },
+      filters: {
+        // description(description) {
+        //   return !description || (typeof description != 'string') ? 'City Church Life Group' : description;
+        // },
+        fieldFilter(value, defaultValue) {
+          return !value || (typeof value != 'string') ? defaultValue : value;
         },
-        watch: {
-          selectedDay(newValue){
-            this.filteredGroups = this.groups.filter(function(group){
-              return group.meet_day_name == newValue;
-            })
+      },
+      computed: {
+        meetingDaysList() {
+          return Object.keys(this.meetingDays)
+        },
+      },
+      methods: {
+        getfilteredData() {
+          this.filteredGroups = this.groups;
+          let filteredDataBySearch = [];
+
+          // this filter according to keyword, for now this only affects the name attribute of each data
+          if (this.search !== '') {
+            filteredDataBySearch = this.filteredGroups.filter(group => group.name.toLowerCase().includes(this.search.toLowerCase()))
+            this.filteredGroups = filteredDataBySearch;
           }
         },
-        filters: {
-          // description(description) {
-          //   return !description || (typeof description != 'string') ? 'City Church Life Group' : description;
-          // },
-          fieldFilter(value, defaultValue) {
-            return !value || (typeof value != 'string') ? defaultValue : value;
-          },
+        clearFilters() {
+          this.filteredGroups = this.groups;
         },
-        computed:{
-          meetingDaysList() {
-            return Object.keys(this.meetingDays)
-          },
+        flipped(group, index) {
+          console.log('shon flipped');
+          group.flipped = !group.flipped
+          Vue.set(this.filteredGroups, index, group)
         },
-        methods: {
-          clearFilters(){
-            this.filteredGroups = this.groups;
-          },
-          flipped(group, index) {
-            console.log('shon flipped');
-            group.flipped = !group.flipped
-            Vue.set(this.groups, index, group)
-          },
-          extendForm(group, index){ 
-            group.formExtended = !group.formExtended
-            Vue.set(this.groups, index, group)
-          },
-          getGroups() {
-            //fetch('https://marine-access-259619.appspot.com/api')
-            fetch('http://localhost:8000/api')
-              .then(response =>  response.json() )
-              .then(myJson => {
-                this.groups = myJson.response.items.item
-                this.groups = this.groups.map(group => {
-                  group.flipped = false;
-                  group.formExtended = false;
-                  if(typeof group.meet_day_name == 'string' && group.meet_day_name === 'Every Other Thursday'){
-                    group.meet_day_name = 'Thursday';
-                  }
-                  if(typeof group.meet_day_name == 'string'){
-                    this.meetingDays[group.meet_day_name] = null;
-                  }else{
-                    this.meetingDays['TBA'] = null;
-                  }
-                  group.currentUser = {
-                    first_name: null,
-                    last_name: null,
-                    email: null
-                  };
+        extendForm(group, index) {
+          group.formExtended = !group.formExtended
+          Vue.set(this.filteredGroups, index, group)
+        },
+        getGroups() {
+          //fetch('https://marine-access-259619.appspot.com/api')
+          this.selectedDay = null
+          this.meetingDays = {}
+          fetch('http://localhost:8000/api')
+            .then(response => response.json())
+            .then(myJson => {
+              this.groups = myJson.response.items.item
+              this.groups = this.groups.map(group => {
+                group.flipped = false;
+                group.formExtended = false;
+                if (typeof group.meet_day_name == 'string' && group.meet_day_name === 'Every Other Sunday') {
+                  group.meet_day_name = 'Sunday';
+                }
+                if (typeof group.meet_day_name == 'string' && group.meet_day_name === 'Every Other Thursday') {
+                  group.meet_day_name = 'Thursday';
+                }
+                if (typeof group.meet_day_name == 'string') {
+                  this.meetingDays[group.meet_day_name] = null;
+                } else {
+                  this.meetingDays['TBA'] = null;
+                }
+                group.currentUser = {
+                  first_name: null,
+                  last_name: null,
+                  email: null
+                };
 
-                  return group;
-                });
-                this.filteredGroups = this.groups;
+                return group;
               });
-          },
-          async addUserToGroup(group, index) {
-            console.log('group id', group.id);
-            const formData = {...group.currentUser}
-            formData.groupId = group.id;
-            // const response = await fetch('http://localhost:8000/api/group/add/user', {
-            //   method: 'POST',
-            //   headers: {
-            //     'Content-Type': 'application/json'
-            //     // 'Content-Type': 'application/x-www-form-urlencoded',
-            //   },
-            //   body: JSON.stringify(formData)
-            // });
-            // const data = await response.json();
-            // console.log(data);
-            group.currentUser.first_name = null,
-            group.currentUser.last_name = null,
-            group.currentUser.email = null,
-            //Vue.set(this.groups, index, group)
-            this.groups.splice(index, 1, group);
-          },
+              this.filteredGroups = this.groups;
+            });
         },
-        created() {
-            this.getGroups();
-        }
-      })
+        async addUserToGroup(group, index) {
+          console.log('group id', group.id);
+          const formData = { ...group.currentUser }
+          formData.groupId = group.id;
+          // const response = await fetch('http://localhost:8000/api/group/add/user', {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json'
+          //     // 'Content-Type': 'application/x-www-form-urlencoded',
+          //   },
+          //   body: JSON.stringify(formData)
+          // });
+          // const data = await response.json();
+          group.currentUser.first_name = null,
+          group.currentUser.last_name = null,
+          group.currentUser.email = null,
+          this.getGroups();
+        },
+      },
+      created() {
+        this.getGroups();
+      },
+      mounted() {
+        this.getfilteredData();
+      }
+    })
   </script>
 </body>
 ​
+
 </html>
 
 <!-- {
@@ -375,4 +454,3 @@
     "owner_name":"Alexa Hopwood",
     "owner_email_primary":"alexavalcastrillon@gmail.com"
 }, -->
-
