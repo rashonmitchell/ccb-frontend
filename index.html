@@ -16,6 +16,7 @@
     h3 {
       font-size: 16px;
       text-transform: uppercase;
+      color: black;
     }
 
     /* Float four columns side by side */
@@ -54,7 +55,7 @@
     .card {
       border-radius: 6px;
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
-      height: 409px;
+      height: 509px;
       padding: 15px;
       text-align: center;
       background-color: #fff;
@@ -160,6 +161,14 @@
       top: 0;
     }
 
+    .reg-btn {
+      bottom: 0;
+      margin-bottom: 10px;
+      position: absolute;
+      right: 37%;
+      text-align: right;
+    }
+
     .more-info-btn:focus,
     .back-btn:focus {
       outline: none;
@@ -174,9 +183,9 @@
       border-bottom: 2px solid darkgrey;
     }
 
-    input[type=text]:focus {
+    /* input[type=text]:focus {
       border: 3px solid #555;
-    }
+    } */
 
     .submit-btn {
       float: right;
@@ -212,8 +221,7 @@
     <!-- fitler container -->
     <form v-on:submit="">
       <div style="width: 50%;">
-        <input type="text" class="form-control" placeholder="Enter key word  ..." v-model="search"
-          v-on:keyup="getfilteredData">
+        <input type="text" class="form-control" placeholder="Enter key word  ..." v-model="dataFilter.search">
       </div>
       <div>
         <button type="submit" class="btn btn-primary" style="display: none;">Search</button>
@@ -221,14 +229,29 @@
     </form>
 
     <div>
-      <select name="" id="" aria-label="Select menu example" aria-placeholder="Meets On" style="font-size: 14px;"
+      <div class="filter">
+        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="monday" /> Monday</label>
+        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="tuesday" /> Tuesday</label>
+        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="wednesday" /> Wednesday</label>
+        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="thursday" /> Thursday</label>
+        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="friday" /> Friday</label>
+        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="saturday" /> Saturday</label>
+        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="sunday" /> Sunday</label>
+      </div>
+
+      <select name="" id=""  v-model="dataFilter.selectedLocation">
+        <option v-bind:value="key" v-for="(value, key) in dataFilter.selectedLocation" aria-placeholder="Location On">{{key}}</option>
+      </select>
+
+      <!-- <!-- <select name="" id="" aria-label="Select menu example" aria-placeholder="Meets On" style="font-size: 14px;"
         v-model="selectedDay">
         <option v-bind:value="key" v-for="(value, key) in meetingDays" aria-placeholder="Meets On">{{key}}</option>
-        <!-- <option v-bind:value="key" v-for="day in meetingDays" aria-placeholder="Meets On">{{ day }}</option> -->
-      </select>
+        <option v-bind:value="key" v-for="day in meetingDays" aria-placeholder="Meets On">{{ day }}</option> 
+      </select> 
+
       <button @click="clearFilters">
         Clear Filters
-      </button>
+      </button> -->
 
       <p style="color: #2eb2ff;">{{filteredGroups.length}} Life Groups Active</p>
     </div>
@@ -264,43 +287,30 @@
             </button>
             <p class="" style="font-size: 18px; padding: 0 14px;">
               {{ group.description | fieldFilter('City Church Life Group')}}</p>
-            <div>
+              <p>{{ group.area_name}}</p>
+            <!-- <div>
               <p>WATCH VIDEO</p>
             </div>
             <div>
-              <p>CONTACT LEADER</p>
-            </div>
+              <p><a href="mailto:{{ group.owner_email_primary }}">CONTACT LEADER</a></p>
+            </div> -->
 
             <!-- form start -->
             <div>
-              <button v-on:click="extendForm(group, index)">
-                <p>REGISTER NOW</p>
-              </button>
+              
               <transition name="fade" v-if="group.formExtended">
-                <div class="g-recaptcha" data-sitekey="6Lc-fvcUAAAAAC2Db4jSM5Ch6YB_OSSgXErkPgQc">
+                <div>
                   <input type="text" placeholder="First Name" v-model="group.currentUser.first_name">
                   <input type="text" placeholder="Last Name" v-model="group.currentUser.last_name">
                   <input type="text" placeholder="Email" v-model="group.currentUser.email">
-                  <!-- <vue-recaptcha
-                    ref="recaptcha"
-                    @verify="onCaptchaVerified"
-                    @expired="onCaptchaExpired"
-                    size="invisible"
-                    sitekey="6Lc-fvcUAAAAAC2Db4jSM5Ch6YB_OSSgXErkPgQc">
-                  </vue-recaptcha> -->
+                  <!-- <div class="g-recaptcha" data-sitekey="6Lcfi_cUAAAAAJicpC4rpE6YUNKx2oUTzgvESgMM"></div> -->
+                  
                   <button @click="addUserToGroup(group, index)" class="submit-btn">Submit</button>
                 </div>
-                <!-- <div class="input-group">
-                <vue-recaptcha
-                  ref="recaptcha"
-                  @verify="onCaptchaVerified"
-                  @expired="onCaptchaExpired"
-                  size="invisible"
-                  sitekey="6LfJA0gUAAAAAA4YDXBubWMll55x5xLpyzu6n60G">
-                </vue-recaptcha>
-                <button :disabled="status==='submitting'" type="submit" class="button">sign up</button>
-              </div> -->
               </transition>
+              <button v-on:click="extendForm(group, index)" class="reg-btn">
+                <p>REGISTER NOW</p>
+              </button>
             </div>
             <!-- form end -->
           </div>
@@ -318,23 +328,44 @@
   <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" async></script> -->
   <!-- <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script>
   <script src="https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js"></script> -->
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
+  <!-- <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script> -->
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- <script type="text/javascript">
+    var onloadCallback = function() {
+      alert("grecaptcha is ready!");
+    };
+  </script> -->
   <script>
     var app = new Vue({
       el: '#app',
       data: {
         groups: [],
-        meetingDays: {},
-        selectedDay: null,
+        //meetingDays: {},
+        //selectedDay: null,
         filteredGroups: [],
-        search: '',
+        dataFilter: {
+          selectedDays: [],
+          selectedLocation: [],
+          search: '',
+        }
       },
       watch: {
-        selectedDay(newValue) {
-          this.filteredGroups = this.groups.filter(function (group) {
-            return group.meet_day_name == newValue;
-          })
+        // selectedDay(newValue) {
+        //   this.filteredGroups = this.groups.filter(group => {
+        //     return group.meet_day_name == newValue;
+        //   })
+        // },
+        "dataFilter.selectedDays": function(newValue) { 
+          this.getfilteredData()
+        },
+        "dataFilter.selectedLocation": function(newValue){
+          console.log(newValue, 'selectedLocation')
+          this.getfilteredData()
+        },
+        "dataFilter.search": function(newValue) { 
+          console.log(newValue, 'search')
+          this.getfilteredData()
         }
       },
       filters: {
@@ -352,20 +383,28 @@
       },
       methods: {
         getfilteredData() {
-          this.filteredGroups = this.groups;
-          let filteredDataBySearch = [];
-
-          // this filter according to keyword, for now this only affects the name attribute of each data
-          if (this.search !== '') {
-            filteredDataBySearch = this.filteredGroups.filter(group => group.name.toLowerCase().includes(this.search.toLowerCase()))
-            this.filteredGroups = filteredDataBySearch;
+          // selected days filter
+          if(this.dataFilter.selectedDays.length || this.dataFilter.selectedLocation.length || this.dataFilter.search.length){
+            this.filteredGroups = this.groups.filter(group => {
+              if(typeof group.meet_day_name === 'string' && this.dataFilter.selectedDays.includes(group.meet_day_name.toLowerCase())) {
+                return true
+              }
+              if(typeof group.area_name === 'string' && this.dataFilter.selectedLocation.includes(group.area_name.toLowerCase())) {
+                return true
+              }
+              // search filter
+              let search = this.dataFilter.search.toLowerCase()
+              if(this.dataFilter.search !== '' && group.name.toLowerCase().includes(search)) {
+                console.log(this.dataFilter.search, 'lower')
+                return true
+                }
+                return false
+            })
+          } else {
+            this.filteredGroups = this.groups
           }
         },
-        clearFilters() {
-          this.filteredGroups = this.groups;
-        },
         flipped(group, index) {
-          console.log('shon flipped');
           group.flipped = !group.flipped
           Vue.set(this.filteredGroups, index, group)
         },
@@ -374,9 +413,9 @@
           Vue.set(this.filteredGroups, index, group)
         },
         getGroups() {
-          //fetch('https://marine-access-259619.appspot.com/api')
           this.selectedDay = null
           this.meetingDays = {}
+          //fetch('https://marine-access-259619.appspot.com/api')
           fetch('http://localhost:8000/api')
             .then(response => response.json())
             .then(myJson => {
@@ -384,12 +423,15 @@
               this.groups = this.groups.map(group => {
                 group.flipped = false;
                 group.formExtended = false;
-                if (typeof group.meet_day_name == 'string' && group.meet_day_name === 'Every Other Sunday') {
-                  group.meet_day_name = 'Sunday';
-                }
-                if (typeof group.meet_day_name == 'string' && group.meet_day_name === 'Every Other Thursday') {
-                  group.meet_day_name = 'Thursday';
-                }
+                // if (typeof group.meet_day_name == 'string' && group.meet_day_name === 'Every Other Sunday') {
+                //   group.meet_day_name = 'Sunday';
+                // }
+                // if (typeof group.meet_day_name == 'string' && group.meet_day_name === 'Every Other Thursday') {
+                //   group.meet_day_name = 'Thursday';
+                // }
+                // if (typeof group.meet_day_name == 'string' && group.meet_day_name === 'Every Other Tuesday') {
+                //   group.meet_day_name = 'Tuesday';
+                // }
                 if (typeof group.meet_day_name == 'string') {
                   this.meetingDays[group.meet_day_name] = null;
                 } else {
@@ -404,12 +446,31 @@
                 return group;
               });
               this.filteredGroups = this.groups;
+              console.log(this.filteredGroups);
             });
+        },
+        initReCaptcha() {
+          let self = this;
+          setTimeout(function() {
+              if(typeof grecaptcha === 'undefined') {
+                self.initReCaptcha();
+              }
+              else {
+                grecaptcha.render('recaptcha', {
+                  sitekey: '6Lcfi_cUAAAAAJicpC4rpE6YUNKx2oUTzgvESgMM',
+                  size: 'invisible',
+                  badge: 'inline',
+                  callback: self.submit
+                });
+              }
+          }, 100);
         },
         async addUserToGroup(group, index) {
           console.log('group id', group.id);
           const formData = { ...group.currentUser }
           formData.groupId = group.id;
+          let recaptcha_response_value = event.target['g-recaptcha-response'].value;
+          console.log(recaptcha_response_value, 'yup');
           // const response = await fetch('http://localhost:8000/api/group/add/user', {
           //   method: 'POST',
           //   headers: {
@@ -430,27 +491,9 @@
       },
       mounted() {
         this.getfilteredData();
+        this.initReCaptcha();
       }
     })
   </script>
 </body>
-​
-
 </html>
-
-<!-- {
-    "item_id":"1470",
-    "id":"1470",
-    "name":"Alexa Hopwood - Lakeview",
-    "group_type_name":"Life Group",
-    "grouping_name":"Life Groups",
-    "area_name":"Lakeview",
-    "meet_day_name":"Every Other Thursday",
-    "meet_time_name":"Evening",
-    "description":"Women's Devotionals",
-    "status_id":"1",
-    "messaging_type":"Announce",
-    "membership_type":"Request",
-    "owner_name":"Alexa Hopwood",
-    "owner_email_primary":"alexavalcastrillon@gmail.com"
-}, -->
