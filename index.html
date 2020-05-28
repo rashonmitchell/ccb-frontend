@@ -183,6 +183,10 @@
       border-bottom: 2px solid darkgrey;
     }
 
+    input[type=text].half-w {
+      width: 50%;
+    }
+
     /* input[type=text]:focus {
       border: 3px solid #555;
     } */
@@ -212,6 +216,7 @@
       opacity: 0;
       /* transition-timing-function: ease-in; */
     }
+    
   </style>
 </head>
 ​
@@ -230,6 +235,8 @@
 
     <div>
       <div class="filter">
+        <!-- Selected days: {{ dataFilter.selectedDays.join(', ') }} -->
+        <br>
         <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="monday" /> Monday</label>
         <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="tuesday" /> Tuesday</label>
         <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="wednesday" /> Wednesday</label>
@@ -238,20 +245,35 @@
         <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="saturday" /> Saturday</label>
         <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="sunday" /> Sunday</label>
       </div>
+      <br>
 
-      <select name="" id=""  v-model="dataFilter.selectedLocation">
-        <option v-bind:value="key" v-for="(value, key) in dataFilter.selectedLocation" aria-placeholder="Location On">{{key}}</option>
-      </select>
+      <div>
+        <label for="selected Type">Groups Location </label>
+        <select name="" id=""  v-model="dataFilter.selectedLocation">
+          <option value="" disabled selected>Please Choose...</option>
+          <option v-bind:value="value" v-for="value in dataFilter.selectedLocation" aria-placeholder="Location On">{{value}}</option>
+        </select>
+      </div>
+       <br>
 
-      <!-- <!-- <select name="" id="" aria-label="Select menu example" aria-placeholder="Meets On" style="font-size: 14px;"
+      <div>
+        <label for="selected Type">Groups Type</label>
+        <select name="" id="" v-model="dataFilter.selectedType">
+          <option value="" disabled selected>Please Choose...</option>
+          <option v-bind:value="type" v-for="type in dataFilter.selectedType" aria-placeholder="Location On">{{type}}</option>
+        </select>
+      </div>
+
+      <!-- <select name="" id="" aria-label="Select menu example" aria-placeholder="Meets On" style="font-size: 14px;"
         v-model="selectedDay">
-        <option v-bind:value="key" v-for="(value, key) in meetingDays" aria-placeholder="Meets On">{{key}}</option>
-        <option v-bind:value="key" v-for="day in meetingDays" aria-placeholder="Meets On">{{ day }}</option> 
-      </select> 
-
+        <option v-bind:value="key" v-for="(value, key) in meetingDays" aria-placeholder="Meets On">{{key}}</option> -->
+        <!-- <option v-bind:value="key" v-for="day in meetingDays" aria-placeholder="Meets On">{{ day }}</option>  -->
+      <!-- </select>  -->
+      <br>
+      
       <button @click="clearFilters">
         Clear Filters
-      </button> -->
+      </button> 
 
       <p style="color: #2eb2ff;">{{filteredGroups.length}} Life Groups Active</p>
     </div>
@@ -287,7 +309,7 @@
             </button>
             <p class="" style="font-size: 18px; padding: 0 14px;">
               {{ group.description | fieldFilter('City Church Life Group')}}</p>
-              <p>{{ group.area_name}}</p>
+              <p>{{ group.group_type_name}}</p>
             <!-- <div>
               <p>WATCH VIDEO</p>
             </div>
@@ -300,9 +322,12 @@
               
               <transition name="fade" v-if="group.formExtended">
                 <div>
-                  <input type="text" placeholder="First Name" v-model="group.currentUser.first_name">
-                  <input type="text" placeholder="Last Name" v-model="group.currentUser.last_name">
-                  <input type="text" placeholder="Email" v-model="group.currentUser.email">
+                  <div>
+                    <input class="half-w" type="text" placeholder="First Name" v-model="group.currentUser.first_name" required>
+                    <input class="half-w" type="text" placeholder="Last Name" v-model="group.currentUser.last_name" required>
+                  </div>
+                  <input type="text" placeholder="Email" v-model="group.currentUser.email" required>
+                  <input type="text" placeholder="Phone" v-model="group.currentUser.phone">
                   <!-- <div class="g-recaptcha" data-sitekey="6Lcfi_cUAAAAAJicpC4rpE6YUNKx2oUTzgvESgMM"></div> -->
                   
                   <button @click="addUserToGroup(group, index)" class="submit-btn">Submit</button>
@@ -325,7 +350,6 @@
   <!-- <script src="https://cdn.jsdelivr.net/npm/vue" async></script> -->
 
   <!-- development version, includes helpful console warnings -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" async></script> -->
   <!-- <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script>
   <script src="https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js"></script> -->
   <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
@@ -341,12 +365,13 @@
       el: '#app',
       data: {
         groups: [],
-        //meetingDays: {},
+        meetingDays: {},
         //selectedDay: null,
         filteredGroups: [],
         dataFilter: {
           selectedDays: [],
-          selectedLocation: [],
+          selectedType: new Set(),
+          selectedLocation: new Set(),
           search: '',
         }
       },
@@ -360,7 +385,9 @@
           this.getfilteredData()
         },
         "dataFilter.selectedLocation": function(newValue){
-          console.log(newValue, 'selectedLocation')
+          this.getfilteredData()
+        },
+        "dataFilter.selectedType": function(newValue){
           this.getfilteredData()
         },
         "dataFilter.search": function(newValue) { 
@@ -382,23 +409,36 @@
         },
       },
       methods: {
+        getValue(value, groupKey){
+          if(typeof value == "object" && typeof value["@attributes"] !== 'undefined' && typeof value['0'] !== 'undefined'){
+            return value['0']
+          } else if(typeof value == "object" && typeof value["@attributes"] !== 'undefined' && typeof value['0'] == 'undefined') {
+            return ''
+          }
+          return value
+        },
+        clearFilters(){
+            this.filteredGroups = this.groups;
+          },
         getfilteredData() {
-          // selected days filter
-          if(this.dataFilter.selectedDays.length || this.dataFilter.selectedLocation.length || this.dataFilter.search.length){
+          if(this.dataFilter.selectedDays.length || this.dataFilter.selectedType.length || this.dataFilter.selectedLocation.length || this.dataFilter.search.length){
             this.filteredGroups = this.groups.filter(group => {
               if(typeof group.meet_day_name === 'string' && this.dataFilter.selectedDays.includes(group.meet_day_name.toLowerCase())) {
                 return true
               }
-              if(typeof group.area_name === 'string' && this.dataFilter.selectedLocation.includes(group.area_name.toLowerCase())) {
+              let typeGroup = this.dataFilter.selectedType
+              if(typeof group.group_type_name === 'string' && group.group_type_name.includes(typeGroup)){
                 return true
               }
-              // search filter
+              let location = this.dataFilter.selectedLocation
+              if(typeof group.area_name === 'string' && group.area_name.includes(location)) {
+                return true
+              }
               let search = this.dataFilter.search.toLowerCase()
               if(this.dataFilter.search !== '' && group.name.toLowerCase().includes(search)) {
-                console.log(this.dataFilter.search, 'lower')
                 return true
-                }
-                return false
+              }
+               return false
             })
           } else {
             this.filteredGroups = this.groups
@@ -415,12 +455,23 @@
         getGroups() {
           this.selectedDay = null
           this.meetingDays = {}
-          //fetch('https://marine-access-259619.appspot.com/api')
-          fetch('http://localhost:8000/api')
+          fetch('https://marine-access-259619.appspot.com/api')
+          //fetch('http://localhost:8000/api')
             .then(response => response.json())
             .then(myJson => {
               this.groups = myJson.response.items.item
               this.groups = this.groups.map(group => {
+                let groupKeys = Object.keys(group)
+                groupKeys.forEach(groupKey => {
+                  group[groupKey] = this.getValue(group[groupKey], groupKey)
+                })
+                if(typeof group.area_name == "string" && group.area_name.length){
+                  this.dataFilter.selectedLocation.add(group.area_name)
+                }
+                if(typeof group.group_type_name == "string" && group.group_type_name.length){
+                  this.dataFilter.selectedType.add(group.group_type_name)
+                }
+          
                 group.flipped = false;
                 group.formExtended = false;
                 // if (typeof group.meet_day_name == 'string' && group.meet_day_name === 'Every Other Sunday') {
@@ -440,7 +491,8 @@
                 group.currentUser = {
                   first_name: null,
                   last_name: null,
-                  email: null
+                  email: null,
+                  phone: null
                 };
 
                 return group;
@@ -466,11 +518,9 @@
           }, 100);
         },
         async addUserToGroup(group, index) {
-          console.log('group id', group.id);
           const formData = { ...group.currentUser }
           formData.groupId = group.id;
-          let recaptcha_response_value = event.target['g-recaptcha-response'].value;
-          console.log(recaptcha_response_value, 'yup');
+          //let recaptcha_response_value = event.target['g-recaptcha-response'].value;
           // const response = await fetch('http://localhost:8000/api/group/add/user', {
           //   method: 'POST',
           //   headers: {
@@ -483,6 +533,7 @@
           group.currentUser.first_name = null,
           group.currentUser.last_name = null,
           group.currentUser.email = null,
+          group.currentUser.phone = null,
           this.getGroups();
         },
       },

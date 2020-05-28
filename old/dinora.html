@@ -344,8 +344,8 @@
             Vue.set(this.groups, index, group)
           },
           getGroups() {
-            //fetch('https://marine-access-259619.appspot.com/api')
-            fetch('http://localhost:8000/api')
+            fetch('https://marine-access-259619.appspot.com/api')
+            //fetch('http://localhost:8000/api')
               .then(response =>  response.json() )
               .then(myJson => {
                 this.groups = myJson.response.items.item
