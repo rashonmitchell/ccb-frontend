@@ -248,6 +248,18 @@
       <br>
 
       <div>
+        <span>Groups Type</span>
+        <br>
+        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedType" value="coed life group's" /> Coed Life Group's</label>
+        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedType" value="common interest groups" /> Common Interest Group's</label>
+        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedType" value="church" /> Church</label>
+        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedType" value="life group" /> Life Group</label>
+        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedType" value="men's life group" /> Men's Life Group</label>
+        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedType" value="women's life group" /> Women's Life Group</label>
+        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedType" value="sports & fitness life groups" /> Sports & Fitness Life Groups</label>
+      </div>
+
+      <div>
         <label for="selected Type">Groups Location </label>
         <select name="" id=""  v-model="dataFilter.selectedLocation">
           <option value="" disabled selected>Please Choose...</option>
@@ -256,13 +268,13 @@
       </div>
        <br>
 
-      <div>
+      <!-- <div>
         <label for="selected Type">Groups Type</label>
         <select name="" id="" v-model="dataFilter.selectedType">
           <option value="" disabled selected>Please Choose...</option>
           <option v-bind:value="type" v-for="type in dataFilter.selectedType" aria-placeholder="Location On">{{type}}</option>
         </select>
-      </div>
+      </div> -->
 
       <!-- <select name="" id="" aria-label="Select menu example" aria-placeholder="Meets On" style="font-size: 14px;"
         v-model="selectedDay">
@@ -370,7 +382,7 @@
         filteredGroups: [],
         dataFilter: {
           selectedDays: [],
-          selectedType: new Set(),
+          selectedType: [],
           selectedLocation: new Set(),
           search: '',
         }
@@ -384,12 +396,12 @@
         "dataFilter.selectedDays": function(newValue) { 
           this.getfilteredData()
         },
-        "dataFilter.selectedLocation": function(newValue){
-          this.getfilteredData()
-        },
         "dataFilter.selectedType": function(newValue){
           this.getfilteredData()
         },
+        // "dataFilter.selectedLocation": function(newValue){
+        //   this.getfilteredData()
+        // },
         "dataFilter.search": function(newValue) { 
           console.log(newValue, 'search')
           this.getfilteredData()
@@ -421,19 +433,19 @@
             this.filteredGroups = this.groups;
           },
         getfilteredData() {
-          if(this.dataFilter.selectedDays.length || this.dataFilter.selectedType.length || this.dataFilter.selectedLocation.length || this.dataFilter.search.length){
+          if(this.dataFilter.selectedDays.length || this.dataFilter.selectedType.length || this.dataFilter.search.length){
             this.filteredGroups = this.groups.filter(group => {
               if(typeof group.meet_day_name === 'string' && this.dataFilter.selectedDays.includes(group.meet_day_name.toLowerCase())) {
                 return true
               }
-              let typeGroup = this.dataFilter.selectedType
-              if(typeof group.group_type_name === 'string' && group.group_type_name.includes(typeGroup)){
+              if(typeof group.group_type_name === 'string' && this.dataFilter.selectedType.includes(group.group_type_name.toLowerCase())) {
                 return true
               }
-              let location = this.dataFilter.selectedLocation
-              if(typeof group.area_name === 'string' && group.area_name.includes(location)) {
-                return true
-              }
+              // this.dataFilter.selectedLocation.length
+              // let location = this.dataFilter.selectedLocation
+              // if(typeof group.area_name === 'string' && group.area_name.includes(location)) {
+              //   return true
+              // }
               let search = this.dataFilter.search.toLowerCase()
               if(this.dataFilter.search !== '' && group.name.toLowerCase().includes(search)) {
                 return true
@@ -467,9 +479,6 @@
                 })
                 if(typeof group.area_name == "string" && group.area_name.length){
                   this.dataFilter.selectedLocation.add(group.area_name)
-                }
-                if(typeof group.group_type_name == "string" && group.group_type_name.length){
-                  this.dataFilter.selectedType.add(group.group_type_name)
                 }
           
                 group.flipped = false;
