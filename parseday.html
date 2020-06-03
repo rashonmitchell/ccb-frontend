@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function parseDay(meetDay) {
+        if (
+          typeof meetDay == "string" &&
+          meetDay.toLowerCase().includes("monday")
+        ) {
+          return {
+            day: "monday",
+            raw: meetDay,
+          };
+        } else if (
+          typeof meetDay == "string" &&
+          meetDay.toLowerCase().includes("tuesday")
+        ) {
+          return {
+            day: "tuesday",
+            raw: meetDay,
+          };
+        } else if (
+          typeof meetDay == "string" &&
+          meetDay.toLowerCase().includes("wednesday")
+        ) {
+          return {
+            day: "wednesday",
+            raw: meetDay,
+          };
+        } else if (
+          typeof meetDay == "string" &&
+          meetDay.toLowerCase().includes("thursday")
+        ) {
+          return {
+            day: "thursday",
+            raw: meetDay,
+          };
+        } else if (
+          typeof meetDay == "string" &&
+          meetDay.toLowerCase().includes("friday")
+        ) {
+          return {
+            day: "friday",
+            raw: meetDay,
+          };
+        } else if (
+          typeof meetDay == "string" &&
+          meetDay.toLowerCase().includes("saturday")
+        ) {
+          return {
+            day: "saturday",
+            raw: meetDay,
+          };
+        } else if (
+          typeof meetDay == "string" &&
+          meetDay.toLowerCase().includes("sunday")
+        ) {
+          return {
+            day: "sunday",
+            raw: meetDay,
+          };
+        } else {
+          return {
+            day: "NA",
+            raw: "NA",
+          };
+        }
+      }
+      let day = parseDay("Every Other Tuesday");
+      console.log(day);
+    </script>
+  </body>
+</html>

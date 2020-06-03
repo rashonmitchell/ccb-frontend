@@ -1,559 +1,706 @@
 <!DOCTYPE html>
 <html lang="en">
-​
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>CC Lifegroup Frontend</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>CC Lifegroup Frontend</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    h3 {
-      font-size: 16px;
-      text-transform: uppercase;
-      color: black;
-    }
-
-    /* Float four columns side by side */
-    .column {
-      float: left;
-      /* width: 31%; */
-      width: 33.33%;
-      padding: 0 20px;
-      margin: 20px 0;
-    }
-
-    /* Remove extra left and right margins, due to padding */
-    .row {
-      /* margin: 0 -5px; */
-      /* margin: auto; */
-      width: 100%;
-    }
-
-    /* Clear floats after the columns */
-    .row:after {
-      content: "";
-      display: table;
-      clear: both;
-    }
-
-    /* Responsive columns */
-    @media screen and (max-width: 800px) {
-      .column {
-        width: 100%;
-        display: block;
-        margin-bottom: 20px;
+    <style>
+      * {
+        box-sizing: border-box;
       }
-    }
 
-    /* Style the counter cards */
-    .card {
-      border-radius: 6px;
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
-      height: 509px;
-      padding: 15px;
-      text-align: center;
-      background-color: #fff;
-    }
+      h3 {
+        font-size: 16px;
+        text-transform: uppercase;
+        color: black;
+      }
 
-    .small {
-      font-size: 10px;
-    }
+      /* Float four columns side by side */
+      .column {
+        float: left;
+        /* width: 31%; */
+        width: 33.33%;
+        padding: 0 20px;
+        margin: 20px 0;
+      }
 
-    ul {
-      list-style-type: none;
-      text-align: left;
-    }
+      /* Remove extra left and right margins, due to padding */
+      .row {
+        width: 100%;
+      }
 
-    .flip-container {
-      -webkit-perspective: 1000;
-      -moz-perspective: 1000;
-      -o-perspective: 1000;
-      perspective: 1000;
-    }
+      /* Clear floats after the columns */
+      .row:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
 
-    .flip-container {
-      min-height: 120px;
-    }
+      /* Responsive columns */
+      @media screen and (max-width: 800px) {
+        .column {
+          width: 100%;
+          display: block;
+          margin-bottom: 20px;
+        }
+      }
 
-    .flipper {
-      -moz-transform: perspective(1000px);
-      -moz-transform-style: preserve-3d;
-      position: relative;
-    }
+      /* Style the counter cards */
+      .card {
+        border-radius: 6px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
+        height: 509px;
+        padding: 15px;
+        text-align: center;
+        background-color: #fff;
+      }
 
-    .front,
-    .back {
-      -webkit-backface-visibility: hidden;
-      -moz-backface-visibility: hidden;
-      -o-backface-visibility: hidden;
-      backface-visibility: hidden;
-      -webkit-transition: 0.6s;
-      -webkit-transform-style: preserve-3d;
-      -moz-transition: 0.6s;
-      -moz-transform-style: preserve-3d;
-      -o-transition: 0.6s;
-      -o-transform-style: preserve-3d;
-      -ms-transition: 0.6s;
-      -ms-transform-style: preserve-3d;
-      transition: 0.6s;
-      transform-style: preserve-3d;
-      top: 0;
-      left: 0;
-      width: 100%;
-    }
+      .small {
+        font-size: 10px;
+      }
 
-    .back {
-      -webkit-transform: rotateY(-180deg);
-      -moz-transform: rotateY(-180deg);
-      -o-transform: rotateY(-180deg);
-      -ms-transform: rotateY(-180deg);
-      transform: rotateY(-180deg);
-      position: absolute;
-    }
+      ul {
+        list-style-type: none;
+        text-align: left;
+      }
 
-    .flip-container.flipped .back {
-      -webkit-transform: rotateY(0deg);
-      -moz-transform: rotateY(0deg);
-      -o-transform: rotateY(0deg);
-      -ms-transform: rotateY(0deg);
-      transform: rotateY(0deg);
-    }
+      .flip-container {
+        -webkit-perspective: 1000;
+        -moz-perspective: 1000;
+        -o-perspective: 1000;
+        perspective: 1000;
+      }
 
-    .flip-container.flipped .front {
-      -webkit-transform: rotateY(180deg);
-      -moz-transform: rotateY(180deg);
-      -o-transform: rotateY(180deg);
-      -ms-transform: rotateY(180deg);
-      transform: rotateY(180deg);
-    }
+      .flip-container {
+        min-height: 120px;
+      }
 
-    .front {
-      z-index: 2;
-    }
+      .flipper {
+        -moz-transform: perspective(1000px);
+        -moz-transform-style: preserve-3d;
+        position: relative;
+      }
 
-    .more-info-btn {
-      background: transparent;
-      border: none;
-      color: rgb(46, 161, 222);
-      font-style: italic;
-      padding: 10px 15px;
-      position: absolute;
-      right: 0;
-      text-align: right;
-      bottom: 0;
-    }
+      .front,
+      .back {
+        -webkit-backface-visibility: hidden;
+        -moz-backface-visibility: hidden;
+        -o-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-transition: 0.6s;
+        -webkit-transform-style: preserve-3d;
+        -moz-transition: 0.6s;
+        -moz-transform-style: preserve-3d;
+        -o-transition: 0.6s;
+        -o-transform-style: preserve-3d;
+        -ms-transition: 0.6s;
+        -ms-transform-style: preserve-3d;
+        transition: 0.6s;
+        transform-style: preserve-3d;
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
 
-    .back-btn {
-      background: transparent;
-      border: none;
-      color: rgb(46, 161, 222);
-      font-style: italic;
-      padding: 10px 15px;
-      position: absolute;
-      right: 0;
-      text-align: right;
-      top: 0;
-    }
+      .back {
+        -webkit-transform: rotateY(-180deg);
+        -moz-transform: rotateY(-180deg);
+        -o-transform: rotateY(-180deg);
+        -ms-transform: rotateY(-180deg);
+        transform: rotateY(-180deg);
+        position: absolute;
+      }
 
-    .reg-btn {
-      bottom: 0;
-      margin-bottom: 10px;
-      position: absolute;
-      right: 37%;
-      text-align: right;
-    }
+      .flip-container.flipped .back {
+        -webkit-transform: rotateY(0deg);
+        -moz-transform: rotateY(0deg);
+        -o-transform: rotateY(0deg);
+        -ms-transform: rotateY(0deg);
+        transform: rotateY(0deg);
+      }
 
-    .more-info-btn:focus,
-    .back-btn:focus {
-      outline: none;
-    }
+      .flip-container.flipped .front {
+        -webkit-transform: rotateY(180deg);
+        -moz-transform: rotateY(180deg);
+        -o-transform: rotateY(180deg);
+        -ms-transform: rotateY(180deg);
+        transform: rotateY(180deg);
+      }
 
-    input[type=text] {
-      width: 100%;
-      padding: 12px 20px;
-      margin: 8px 0;
-      box-sizing: border-box;
-      border: none;
-      border-bottom: 2px solid darkgrey;
-    }
+      .front {
+        z-index: 2;
+      }
 
-    input[type=text].half-w {
-      width: 50%;
-    }
+      .more-info-btn {
+        background: transparent;
+        border: none;
+        color: rgb(46, 161, 222);
+        font-style: italic;
+        padding: 10px 15px;
+        position: absolute;
+        right: 0;
+        text-align: right;
+        bottom: 0;
+      }
 
-    /* input[type=text]:focus {
-      border: 3px solid #555;
-    } */
+      .back-btn {
+        background: transparent;
+        border: none;
+        color: rgb(46, 161, 222);
+        font-style: italic;
+        padding: 10px 15px;
+        position: absolute;
+        right: 0;
+        text-align: right;
+        top: 0;
+      }
 
-    .submit-btn {
-      float: right;
-      padding: 10px 15px;
-      /* bottom: 10px;
-      position: absolute;
-      right: 15px;
-      text-align: right; */
-    }
+      .reg-btn {
+        bottom: 0;
+        margin-bottom: 10px;
+        position: absolute;
+        right: 37%;
+        text-align: right;
+      }
 
-    .fade-enter-active,
-    .fade-leave-active {
-      transition: all .3s ease;
-      /* transition: opacity .5s, transform 2s ease; */
-      /* transition-timing-function: ease-out; */
-    }
+      .more-info-btn:focus,
+      .back-btn:focus {
+        outline: none;
+      }
 
-    .fade-enter,
-    .fade-leave-to
+      input[type="text"] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: none;
+        border-bottom: 2px solid darkgrey;
+      }
 
-    /* .fade-leave-active below version 2.1.8 */
-      {
-      transition: all .3s ease;
-      opacity: 0;
-      /* transition-timing-function: ease-in; */
-    }
-    
-  </style>
-</head>
-​
+      input[type="text"].half-w {
+        width: 50%;
+      }
 
-<body>
-  <div id="app" class="row">
-    <!-- fitler container -->
-    <form v-on:submit="">
-      <div style="width: 50%;">
-        <input type="text" class="form-control" placeholder="Enter key word  ..." v-model="dataFilter.search">
-      </div>
+      .submit-btn {
+        float: right;
+        padding: 10px 15px;
+      }
+
+      .fade-enter-active,
+      .fade-leave-active {
+        transition: all 0.3s ease;
+      }
+
+      .fade-enter,
+    .fade-leave-to {
+        transition: all 0.3s ease;
+        opacity: 0;
+      }
+    </style>
+  </head>
+  ​
+
+  <body>
+    <div id="app" class="row">
+      <!-- fitler container -->
+      <form v-on:submit="">
+        <div style="width: 50%;">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter key word  ..."
+            v-model="dataFilter.search"
+          />
+        </div>
+        <div>
+          <button type="submit" class="btn btn-primary" style="display: none;">
+            Search
+          </button>
+        </div>
+      </form>
+
       <div>
-        <button type="submit" class="btn btn-primary" style="display: none;">Search</button>
+        <div class="filter">
+          <!-- Selected days: {{ dataFilter.selectedDays.join(', ') }} -->
+          <br />
+          <label v-for="day in meetingDays"
+            ><input
+              type="checkbox"
+              name="sc"
+              v-model="dataFilter.selectedDays"
+              :value="day"
+            />
+            {{day}}</label
+          >
+ 
+        </div>
+        <br />
+
+        <div>
+          <span>Groups Type</span>
+          <br />
+          <label
+            ><input
+              type="checkbox"
+              name="sc"
+              v-model="dataFilter.selectedType"
+              value="coed life group's"
+            />
+            Coed Life Group's</label
+          >
+          <label
+            ><input
+              type="checkbox"
+              name="sc"
+              v-model="dataFilter.selectedType"
+              value="common interest groups"
+            />
+            Common Interest Group's</label
+          >
+          <label
+            ><input
+              type="checkbox"
+              name="sc"
+              v-model="dataFilter.selectedType"
+              value="church"
+            />
+            Church</label
+          >
+          <label
+            ><input
+              type="checkbox"
+              name="sc"
+              v-model="dataFilter.selectedType"
+              value="life group"
+            />
+            Life Group</label
+          >
+          <label
+            ><input
+              type="checkbox"
+              name="sc"
+              v-model="dataFilter.selectedType"
+              value="men's life group"
+            />
+            Men's Life Group</label
+          >
+          <label
+            ><input
+              type="checkbox"
+              name="sc"
+              v-model="dataFilter.selectedType"
+              value="women's life group"
+            />
+            Women's Life Group</label
+          >
+          <label
+            ><input
+              type="checkbox"
+              name="sc"
+              v-model="dataFilter.selectedType"
+              value="sports & fitness life groups"
+            />
+            Sports & Fitness Life Groups</label
+          >
+        </div>
+
+        <div>
+          <label for="selected Type">Groups Location </label>
+          <select name="" id="" v-model="dataFilter.selectedLocation">
+            <option value="" disabled selected>Please Choose Location...</option>
+            <option
+              :value="value"
+              v-for="value in locations"
+              aria-placeholder="Location On"
+              >{{value}}</option
+            >
+          </select>
+        </div>
+        <br />
+
+        <button @click="clearFilters">
+          Clear Filters
+        </button>
+
+        <p style="color: #2eb2ff;">
+          {{filteredGroups.length}} Life Groups Active
+        </p>
       </div>
-    </form>
-
-    <div>
-      <div class="filter">
-        <!-- Selected days: {{ dataFilter.selectedDays.join(', ') }} -->
-        <br>
-        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="monday" /> Monday</label>
-        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="tuesday" /> Tuesday</label>
-        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="wednesday" /> Wednesday</label>
-        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="thursday" /> Thursday</label>
-        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="friday" /> Friday</label>
-        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="saturday" /> Saturday</label>
-        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedDays" value="sunday" /> Sunday</label>
-      </div>
-      <br>
-
-      <div>
-        <span>Groups Type</span>
-        <br>
-        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedType" value="coed life group's" /> Coed Life Group's</label>
-        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedType" value="common interest groups" /> Common Interest Group's</label>
-        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedType" value="church" /> Church</label>
-        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedType" value="life group" /> Life Group</label>
-        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedType" value="men's life group" /> Men's Life Group</label>
-        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedType" value="women's life group" /> Women's Life Group</label>
-        <label><input type="checkbox" name="sc" v-model="dataFilter.selectedType" value="sports & fitness life groups" /> Sports & Fitness Life Groups</label>
-      </div>
-
-      <div>
-        <label for="selected Type">Groups Location </label>
-        <select name="" id=""  v-model="dataFilter.selectedLocation">
-          <option value="" disabled selected>Please Choose...</option>
-          <option v-bind:value="value" v-for="value in dataFilter.selectedLocation" aria-placeholder="Location On">{{value}}</option>
-        </select>
-      </div>
-       <br>
-
-      <!-- <div>
-        <label for="selected Type">Groups Type</label>
-        <select name="" id="" v-model="dataFilter.selectedType">
-          <option value="" disabled selected>Please Choose...</option>
-          <option v-bind:value="type" v-for="type in dataFilter.selectedType" aria-placeholder="Location On">{{type}}</option>
-        </select>
-      </div> -->
-
-      <!-- <select name="" id="" aria-label="Select menu example" aria-placeholder="Meets On" style="font-size: 14px;"
-        v-model="selectedDay">
-        <option v-bind:value="key" v-for="(value, key) in meetingDays" aria-placeholder="Meets On">{{key}}</option> -->
-        <!-- <option v-bind:value="key" v-for="day in meetingDays" aria-placeholder="Meets On">{{ day }}</option>  -->
-      <!-- </select>  -->
-      <br>
-      
-      <button @click="clearFilters">
-        Clear Filters
-      </button> 
-
-      <p style="color: #2eb2ff;">{{filteredGroups.length}} Life Groups Active</p>
-    </div>
-    <!-- fitler container end-->
-    <!-- cards start -->
-    <div v-for="(group, index) in filteredGroups" :key="`group-key-${index}`" class="column">
-      <div class="flip-container" v-bind:class="{ flipped: group.flipped }">
-        <div class="flipper">
-          <!-- front start -->
-          <div class="front card">
-            <h3 style="height: 40px;">{{ group.name }} </h3>
-            <img src="https://www.w3schools.com/w3images/team2.jpg" alt="Jane" style="width:50%; margin-top:13px;">
-            <h3>LED BY {{ group.owner_name }} </h3>
-            <hr style="border: 1px solid #2ea1de; width: 75%;">
-            <ul>
-              <li><b>Type:</b> {{ group.group_type_name }}</li>
-              <li><b>When:</b> {{ group.meet_day_name | fieldFilter('NA')}} {{ group.meet_time_name | fieldFilter('')}}
-              </li>
-              <li><b>Where:</b> {{ group.area_name | fieldFilter('NA')}}</li>
-              <li>*Additional Notes</li>
-            </ul>
-            <slot name="front"></slot>
-            <button class="more-info-btn" v-on:click="flipped(group, index)">
-              <b>More Info &gt;&gt;</b>
-            </button>
-          </div>
-          <!-- front end -->
-          <!-- back start -->
-          <div class="back card">
-            <slot name="back"></slot>
-            <button class="back-btn" v-on:click="flipped(group, index)">
-              <b>&lt;&lt; Back</b>
-            </button>
-            <p class="" style="font-size: 18px; padding: 0 14px;">
-              {{ group.description | fieldFilter('City Church Life Group')}}</p>
-              <p>{{ group.group_type_name}}</p>
-            <!-- <div>
+      <!-- fitler container end-->
+      <!-- cards start -->
+      <div
+        v-for="(group, index) in filteredGroups"
+        :key="`group-key-${index}`"
+        class="column"
+      >
+        <div class="flip-container" v-bind:class="{ flipped: group.flipped }">
+          <div class="flipper">
+            <!-- front start -->
+            <div class="front card">
+              <h3 style="height: 40px;">{{ group.name }}</h3>
+              <img
+                src="https://www.w3schools.com/w3images/team2.jpg"
+                alt="Jane"
+                style="width: 50%; margin-top: 13px;"
+              />
+              <h3>LED BY {{ group.owner_name }}</h3>
+              <hr style="border: 1px solid #2ea1de; width: 75%;" />
+              <ul>
+                <li><b>Type:</b> {{ group.group_type_name }}</li>
+                <li>
+                  <b>When:</b> {{ group.meet_day.raw | fieldFilter('NA')}} {{
+                  group.meet_time_name | fieldFilter('')}}
+                </li>
+                <li><b>Where:</b> {{ group.area_name | fieldFilter('NA')}}</li>
+                <li>*Additional Notes</li>
+              </ul>
+              <slot name="front"></slot>
+              <button class="more-info-btn" v-on:click="flipped(group, index)">
+                <b>More Info &gt;&gt;</b>
+              </button>
+            </div>
+            <!-- front end -->
+            <!-- back start -->
+            <div class="back card">
+              <slot name="back"></slot>
+              <button class="back-btn" v-on:click="flipped(group, index)">
+                <b>&lt;&lt; Back</b>
+              </button>
+              <p class="" style="font-size: 18px; padding: 0 14px;">
+                {{ group.description | fieldFilter('City Church Life Group')}}
+              </p>
+              <!-- <div>
               <p>WATCH VIDEO</p>
             </div>
             <div>
               <p><a href="mailto:{{ group.owner_email_primary }}">CONTACT LEADER</a></p>
             </div> -->
 
-            <!-- form start -->
-            <div>
-              
-              <transition name="fade" v-if="group.formExtended">
-                <div>
+              <!-- form start -->
+              <div>
+                <transition name="fade" v-if="group.formExtended">
                   <div>
-                    <input class="half-w" type="text" placeholder="First Name" v-model="group.currentUser.first_name" required>
-                    <input class="half-w" type="text" placeholder="Last Name" v-model="group.currentUser.last_name" required>
+                    <div>
+                      <input
+                        class="half-w"
+                        type="text"
+                        placeholder="First Name"
+                        v-model="group.currentUser.first_name"
+                        required
+                      />
+                      <input
+                        class="half-w"
+                        type="text"
+                        placeholder="Last Name"
+                        v-model="group.currentUser.last_name"
+                        required
+                      />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Email"
+                      v-model="group.currentUser.email"
+                      required
+                    />
+                    <input
+                      type="text"
+                      placeholder="Phone"
+                      v-model="group.currentUser.phone"
+                    />
+                    <!-- <div class="g-recaptcha" data-sitekey="6Lcfi_cUAAAAAJicpC4rpE6YUNKx2oUTzgvESgMM"></div> -->
+
+                    <button
+                      @click="addUserToGroup(group, index)"
+                      class="submit-btn"
+                    >
+                      Submit
+                    </button>
                   </div>
-                  <input type="text" placeholder="Email" v-model="group.currentUser.email" required>
-                  <input type="text" placeholder="Phone" v-model="group.currentUser.phone">
-                  <!-- <div class="g-recaptcha" data-sitekey="6Lcfi_cUAAAAAJicpC4rpE6YUNKx2oUTzgvESgMM"></div> -->
-                  
-                  <button @click="addUserToGroup(group, index)" class="submit-btn">Submit</button>
-                </div>
-              </transition>
-              <button v-on:click="extendForm(group, index)" class="reg-btn">
-                <p>REGISTER NOW</p>
-              </button>
+                </transition>
+                <button v-on:click="extendForm(group, index)" class="reg-btn">
+                  <p>REGISTER NOW</p>
+                </button>
+              </div>
+              <!-- form end -->
             </div>
-            <!-- form end -->
+            <!-- back end -->
           </div>
-          <!-- back end -->
         </div>
       </div>
+      <!-- cards end -->
     </div>
-    <!-- cards end -->
-  </div>
-  ​
-  <!-- production version, optimized for size and speed -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/vue" async></script> -->
+    ​
+    <!-- production version, optimized for size and speed -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue" async></script> -->
 
-  <!-- development version, includes helpful console warnings -->
-  <!-- <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script>
+    <!-- development version, includes helpful console warnings -->
+    <!-- <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script>
   <script src="https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js"></script> -->
-  <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
-  <!-- <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script> -->
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <!-- <script type="text/javascript">
+    <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
+    <!-- <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- <script type="text/javascript">
     var onloadCallback = function() {
       alert("grecaptcha is ready!");
     };
   </script> -->
-  <script>
-    var app = new Vue({
-      el: '#app',
-      data: {
-        groups: [],
-        meetingDays: {},
-        //selectedDay: null,
-        filteredGroups: [],
-        dataFilter: {
-          selectedDays: [],
-          selectedType: [],
-          selectedLocation: new Set(),
-          search: '',
-        }
-      },
-      watch: {
-        // selectedDay(newValue) {
-        //   this.filteredGroups = this.groups.filter(group => {
-        //     return group.meet_day_name == newValue;
-        //   })
-        // },
-        "dataFilter.selectedDays": function(newValue) { 
-          this.getfilteredData()
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+          groups: [],
+          meetingDays: new Set(),
+          locations: new Set(),
+          filteredGroups: [],
+          dataFilter: {
+            selectedDays: [],
+            selectedType: [],
+            selectedLocation: [],
+            search: "",
+          },
         },
-        "dataFilter.selectedType": function(newValue){
-          this.getfilteredData()
+        watch: {
+          "dataFilter.selectedDays": function (newValue) {
+            this.getfilteredData();
+          },
+          "dataFilter.selectedType": function (newValue) {
+            this.getfilteredData();
+          },
+          "dataFilter.selectedLocation": function (newValue) {
+            this.getfilteredData();
+          },
+          "dataFilter.search": function (newValue) {
+            this.getfilteredData();
+          },
         },
-        // "dataFilter.selectedLocation": function(newValue){
-        //   this.getfilteredData()
-        // },
-        "dataFilter.search": function(newValue) { 
-          console.log(newValue, 'search')
-          this.getfilteredData()
-        }
-      },
-      filters: {
-        // description(description) {
-        //   return !description || (typeof description != 'string') ? 'City Church Life Group' : description;
-        // },
-        fieldFilter(value, defaultValue) {
-          return !value || (typeof value != 'string') ? defaultValue : value;
+        filters: {
+          fieldFilter(value, defaultValue) {
+            return !value || typeof value != "string" ? defaultValue : value;
+          },
         },
-      },
-      computed: {
-        meetingDaysList() {
-          return Object.keys(this.meetingDays)
+        computed: {
+          meetingDaysList() {
+            return Object.keys(this.meetingDays);
+          },
         },
-      },
-      methods: {
-        getValue(value, groupKey){
-          if(typeof value == "object" && typeof value["@attributes"] !== 'undefined' && typeof value['0'] !== 'undefined'){
-            return value['0']
-          } else if(typeof value == "object" && typeof value["@attributes"] !== 'undefined' && typeof value['0'] == 'undefined') {
-            return ''
-          }
-          return value
-        },
-        clearFilters(){
+        methods: {
+          parseDay(meetDay) {
+            if (
+              typeof meetDay == "string" &&
+              meetDay.toLowerCase().includes("monday")
+            ) {
+              return {
+                day: "Monday",
+                raw: meetDay,
+              };
+            } else if (
+              typeof meetDay == "string" &&
+              meetDay.toLowerCase().includes("tuesday")
+            ) {
+              return {
+                day: "Tuesday",
+                raw: meetDay,
+              };
+            } else if (
+              typeof meetDay == "string" &&
+              meetDay.toLowerCase().includes("wednesday")
+            ) {
+              return {
+                day: "Wednesday",
+                raw: meetDay,
+              };
+            } else if (
+              typeof meetDay == "string" &&
+              meetDay.toLowerCase().includes("thursday")
+            ) {
+              return {
+                day: "Thursday",
+                raw: meetDay,
+              };
+            } else if (
+              typeof meetDay == "string" &&
+              meetDay.toLowerCase().includes("friday")
+            ) {
+              return {
+                day: "Friday",
+                raw: meetDay,
+              };
+            } else if (
+              typeof meetDay == "string" &&
+              meetDay.toLowerCase().includes("saturday")
+            ) {
+              return {
+                day: "Saturday",
+                raw: meetDay,
+              };
+            } else if (
+              typeof meetDay == "string" &&
+              meetDay.toLowerCase().includes("sunday")
+            ) {
+              return {
+                day: "Sunday",
+                raw: meetDay,
+              };
+            } else {
+              return {
+                day: "NA",
+                raw: meetDay,
+              };
+            }
+          },
+          getValue(value, groupKey) {
+            if (
+              typeof value == "object" &&
+              typeof value["@attributes"] !== "undefined" &&
+              typeof value["0"] !== "undefined"
+            ) {
+              return value["0"];
+            } else if (
+              typeof value == "object" &&
+              typeof value["@attributes"] !== "undefined" &&
+              typeof value["0"] == "undefined"
+            ) {
+              return "";
+            }
+            return value;
+          },
+          clearFilters() {
             this.filteredGroups = this.groups;
           },
-        getfilteredData() {
-          if(this.dataFilter.selectedDays.length || this.dataFilter.selectedType.length || this.dataFilter.search.length){
-            this.filteredGroups = this.groups.filter(group => {
-              if(typeof group.meet_day_name === 'string' && this.dataFilter.selectedDays.includes(group.meet_day_name.toLowerCase())) {
-                return true
-              }
-              if(typeof group.group_type_name === 'string' && this.dataFilter.selectedType.includes(group.group_type_name.toLowerCase())) {
-                return true
-              }
-              // this.dataFilter.selectedLocation.length
-              // let location = this.dataFilter.selectedLocation
-              // if(typeof group.area_name === 'string' && group.area_name.includes(location)) {
-              //   return true
-              // }
-              let search = this.dataFilter.search.toLowerCase()
-              if(this.dataFilter.search !== '' && group.name.toLowerCase().includes(search)) {
-                return true
-              }
-               return false
-            })
-          } else {
-            this.filteredGroups = this.groups
-          }
-        },
-        flipped(group, index) {
-          group.flipped = !group.flipped
-          Vue.set(this.filteredGroups, index, group)
-        },
-        extendForm(group, index) {
-          group.formExtended = !group.formExtended
-          Vue.set(this.filteredGroups, index, group)
-        },
-        getGroups() {
-          this.selectedDay = null
-          this.meetingDays = {}
-          fetch('https://marine-access-259619.appspot.com/api')
-          //fetch('http://localhost:8000/api')
-            .then(response => response.json())
-            .then(myJson => {
-              this.groups = myJson.response.items.item
-              this.groups = this.groups.map(group => {
-                let groupKeys = Object.keys(group)
-                groupKeys.forEach(groupKey => {
-                  group[groupKey] = this.getValue(group[groupKey], groupKey)
-                })
-                if(typeof group.area_name == "string" && group.area_name.length){
-                  this.dataFilter.selectedLocation.add(group.area_name)
+          getfilteredData() {
+            if (
+              this.dataFilter.selectedDays.length ||
+              this.dataFilter.selectedLocation.length ||
+              this.dataFilter.selectedType.length ||
+              this.dataFilter.search.length
+            ) {
+              this.filteredGroups = this.groups.filter((group) => {
+                if (
+                  this.dataFilter.selectedDays.includes(group.meet_day.day)
+                ) {
+                  return true;
                 }
-          
-                group.flipped = false;
-                group.formExtended = false;
-                // if (typeof group.meet_day_name == 'string' && group.meet_day_name === 'Every Other Sunday') {
-                //   group.meet_day_name = 'Sunday';
-                // }
-                // if (typeof group.meet_day_name == 'string' && group.meet_day_name === 'Every Other Thursday') {
-                //   group.meet_day_name = 'Thursday';
-                // }
-                // if (typeof group.meet_day_name == 'string' && group.meet_day_name === 'Every Other Tuesday') {
-                //   group.meet_day_name = 'Tuesday';
-                // }
-                if (typeof group.meet_day_name == 'string') {
-                  this.meetingDays[group.meet_day_name] = null;
-                } else {
-                  this.meetingDays['TBA'] = null;
+                if (
+                  typeof group.group_type_name === "string" &&
+                  this.dataFilter.selectedType.includes(
+                    group.group_type_name.toLowerCase()
+                  )
+                ) {
+                  return true;
                 }
-                group.currentUser = {
-                  first_name: null,
-                  last_name: null,
-                  email: null,
-                  phone: null
-                };
-
-                return group;
+                if(typeof group.area_name === "string" &&
+                this.dataFilter.selectedLocation.includes(group.area_name.toLowerCase()))
+                {
+                  //this.dataFilter.selectedLocation.toLowerCase().includes(group.area_name.toLowerCase()))
+                  //group.area_name.toLowerCase().includes(this.dataFilter.selectedLocation.toLowerCase()))
+                  return true;
+                }
+                // let location = this.dataFilter.selectedLocation.toLowerCase();
+                // if (
+                //   group.area_name.toLowerCase().includes(location)
+                // ) {
+                //   return true;
+                // }
+                let search = this.dataFilter.search.toLowerCase();
+                if (
+                  this.dataFilter.search !== "" &&
+                  group.name.toLowerCase().includes(search)
+                ) {
+                  return true;
+                }
+                return false;
               });
+            } else {
               this.filteredGroups = this.groups;
-              console.log(this.filteredGroups);
-            });
-        },
-        initReCaptcha() {
-          let self = this;
-          setTimeout(function() {
-              if(typeof grecaptcha === 'undefined') {
+            }
+          },
+          flipped(group, index) {
+            group.flipped = !group.flipped;
+            Vue.set(this.filteredGroups, index, group);
+          },
+          extendForm(group, index) {
+            group.formExtended = !group.formExtended;
+            Vue.set(this.filteredGroups, index, group);
+          },
+          getGroups() {
+            this.selectedDay = null;
+            fetch("https://marine-access-259619.appspot.com/api")
+              //fetch('http://localhost:8000/api')
+              .then((response) => response.json())
+              .then((myJson) => {
+                this.groups = myJson.response.items.item;
+                this.groups = this.groups.map((group) => {
+                  let groupKeys = Object.keys(group);
+                  groupKeys.forEach((groupKey) => {
+                    group[groupKey] = this.getValue(group[groupKey], groupKey);
+                  });
+                  if (
+                    typeof group.area_name == "string" &&
+                    group.area_name.length
+                  ) {
+                    this.locations.add(group.area_name);
+                  }
+                  group.flipped = false;
+                  group.formExtended = false;
+                  group.meet_day = this.parseDay(group.meet_day_name);
+                  this.meetingDays.add(group.meet_day.day);
+                  group.currentUser = {
+                    first_name: null,
+                    last_name: null,
+                    email: null,
+                    phone: null,
+                  };
+
+                  return group;
+                });
+                this.filteredGroups = this.groups;
+              });
+          },
+          initReCaptcha() {
+            let self = this;
+            setTimeout(function () {
+              if (typeof grecaptcha === "undefined") {
                 self.initReCaptcha();
-              }
-              else {
-                grecaptcha.render('recaptcha', {
-                  sitekey: '6Lcfi_cUAAAAAJicpC4rpE6YUNKx2oUTzgvESgMM',
-                  size: 'invisible',
-                  badge: 'inline',
-                  callback: self.submit
+              } else {
+                grecaptcha.render("recaptcha", {
+                  sitekey: "6Lcfi_cUAAAAAJicpC4rpE6YUNKx2oUTzgvESgMM",
+                  size: "invisible",
+                  badge: "inline",
+                  callback: self.submit,
                 });
               }
-          }, 100);
+            }, 100);
+          },
+          async addUserToGroup(group, index) {
+            const formData = { ...group.currentUser };
+            formData.groupId = group.id;
+            //let recaptcha_response_value = event.target['g-recaptcha-response'].value;
+            // const response = await fetch('http://localhost:8000/api/group/add/user', {
+            //   method: 'POST',
+            //   headers: {
+            //     'Content-Type': 'application/json'
+            //     // 'Content-Type': 'application/x-www-form-urlencoded',
+            //   },
+            //   body: JSON.stringify(formData)
+            // });
+            // const data = await response.json();
+            (group.currentUser.first_name = null),
+              (group.currentUser.last_name = null),
+              (group.currentUser.email = null),
+              (group.currentUser.phone = null),
+              this.getGroups();
+          },
         },
-        async addUserToGroup(group, index) {
-          const formData = { ...group.currentUser }
-          formData.groupId = group.id;
-          //let recaptcha_response_value = event.target['g-recaptcha-response'].value;
-          // const response = await fetch('http://localhost:8000/api/group/add/user', {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'application/json'
-          //     // 'Content-Type': 'application/x-www-form-urlencoded',
-          //   },
-          //   body: JSON.stringify(formData)
-          // });
-          // const data = await response.json();
-          group.currentUser.first_name = null,
-          group.currentUser.last_name = null,
-          group.currentUser.email = null,
-          group.currentUser.phone = null,
+        created() {
           this.getGroups();
         },
-      },
-      created() {
-        this.getGroups();
-      },
-      mounted() {
-        this.getfilteredData();
-        this.initReCaptcha();
-      }
-    })
-  </script>
-</body>
+        mounted() {
+          this.getfilteredData();
+          this.initReCaptcha();
+        },
+      });
+    </script>
+  </body>
 </html>
