@@ -16,7 +16,6 @@
         text-transform: uppercase;
         color: black;
       }
-
       /* Float four columns side by side */
       .column {
         float: left;
@@ -25,19 +24,16 @@
         padding: 0 20px;
         margin: 20px 0;
       }
-
       /* Remove extra left and right margins, due to padding */
       .row {
         width: 100%;
       }
-
       /* Clear floats after the columns */
       .row:after {
         content: "";
         display: table;
         clear: both;
       }
-
       /* Responsive columns */
       @media screen and (max-width: 800px) {
         .column {
@@ -457,7 +453,7 @@
           dataFilter: {
             selectedDays: [],
             selectedType: [],
-            selectedLocation: [],
+            selectedLocation: "",
             search: "",
           },
         },
@@ -469,6 +465,7 @@
             this.getfilteredData();
           },
           "dataFilter.selectedLocation": function (newValue) {
+            //this.clearFilters();
             this.getfilteredData();
           },
           "dataFilter.search": function (newValue) {
@@ -567,54 +564,149 @@
             return value;
           },
           clearFilters() {
+            this.dataFilter.selectedDays = [],
+            this.dataFilter.selectedType = [],
+            this.dataFilter.selectedLocation = "",
+            this.dataFilter.search = "",
             this.filteredGroups = this.groups;
           },
           getfilteredData() {
-            if (
-              this.dataFilter.selectedDays.length ||
-              this.dataFilter.selectedLocation.length ||
-              this.dataFilter.selectedType.length ||
-              this.dataFilter.search.length
-            ) {
+            this.filteredGroups = this.groups;
+            if(this.dataFilter.selectedDays.length && this.filteredGroups.length == this.groups.length){
+              console.log('selectedDays filtering groups')
               this.filteredGroups = this.groups.filter((group) => {
-                if (
-                  this.dataFilter.selectedDays.includes(group.meet_day.day)
-                ) {
-                  return true;
-                }
-                if (
-                  typeof group.group_type_name === "string" &&
-                  this.dataFilter.selectedType.includes(
-                    group.group_type_name.toLowerCase()
-                  )
-                ) {
-                  return true;
-                }
-                if(typeof group.area_name === "string" &&
-                this.dataFilter.selectedLocation.includes(group.area_name.toLowerCase()))
-                {
-                  //this.dataFilter.selectedLocation.toLowerCase().includes(group.area_name.toLowerCase()))
-                  //group.area_name.toLowerCase().includes(this.dataFilter.selectedLocation.toLowerCase()))
-                  return true;
-                }
-                // let location = this.dataFilter.selectedLocation.toLowerCase();
-                // if (
-                //   group.area_name.toLowerCase().includes(location)
-                // ) {
-                //   return true;
-                // }
-                let search = this.dataFilter.search.toLowerCase();
-                if (
-                  this.dataFilter.search !== "" &&
-                  group.name.toLowerCase().includes(search)
-                ) {
-                  return true;
-                }
-                return false;
-              });
-            } else {
-              this.filteredGroups = this.groups;
+                let hasSelectedDay = this.dataFilter.selectedDays.includes(group.meet_day.day);
+                return hasSelectedDay
+              })
+            } else if(this.dataFilter.selectedDays.length && this.filteredGroups.length < this.groups.length) {
+              console.log('selectedDays filtering filtered groups')
+              this.filteredGroups = this.filteredGroups.filter((group) => {
+                let hasSelectedDay = this.dataFilter.selectedDays.includes(group.meet_day.day);
+                return hasSelectedDay
+              })
             }
+            //selected location
+            if(this.dataFilter.selectedLocation.length && this.filteredGroups.length == this.groups.length){
+              console.log('selectedLocation filtering groups')
+              this.filteredGroups = this.groups.filter((group) => {
+                let hasSelectedLocation = typeof group.area_name === "string" && group.area_name.length &&
+                 this.dataFilter.selectedLocation.toLowerCase().includes(group.area_name.toLowerCase());
+                return hasSelectedLocation
+              })
+            } else if(this.dataFilter.selectedLocation.length && this.filteredGroups.length < this.groups.length) {
+              console.log('selectedLocation filtering filtered groups')
+              this.filteredGroups = this.filteredGroups.filter((group) => {
+                let hasSelectedLocation = typeof group.area_name === "string" && group.area_name.length &&
+                 this.dataFilter.selectedLocation.toLowerCase().includes(group.area_name.toLowerCase());
+                return hasSelectedLocation
+              })
+            }
+            // selected type
+            if(this.dataFilter.selectedType.length && this.filteredGroups.length == this.groups.length){
+              console.log('selectedLocation filtering groups')
+              this.filteredGroups = this.groups.filter((group) => {
+                let hasSelectedType = typeof group.group_type_name === "string" &&
+                   this.dataFilter.selectedType.includes(group.group_type_name.toLowerCase())
+                return hasSelectedType
+              })
+            } else if(this.dataFilter.selectedType.length && this.filteredGroups.length < this.groups.length) {
+              console.log('selectedLocation filtering filtered groups')
+              this.filteredGroups = this.filteredGroups.filter((group) => {
+                let hasSelectedType = typeof group.group_type_name === "string" &&
+                   this.dataFilter.selectedType.includes(group.group_type_name.toLowerCase())
+                return hasSelectedType
+              })
+            }
+            // selected search
+            if(this.dataFilter.search.length && this.filteredGroups.length == this.groups.length){
+              console.log('selectedLocation filtering groups')
+              this.filteredGroups = this.groups.filter((group) => {
+                let search = this.dataFilter.search.toLowerCase();
+                 let hasSearch = this.dataFilter.search !== "" &&
+                   group.name.toLowerCase().includes(search);
+                return hasSearch
+              })
+            } else if(this.dataFilter.search.length && this.filteredGroups.length < this.groups.length) {
+              console.log('selectedLocation filtering filtered groups')
+              this.filteredGroups = this.filteredGroups.filter((group) => {
+                let search = this.dataFilter.search.toLowerCase();
+                 let hasSearch = this.dataFilter.search !== "" &&
+                   group.name.toLowerCase().includes(search);
+                return hasSearch
+              })
+            }
+            // if(this.dataFilter.selectedType.length){
+            //   this.filteredGroups = this.filteredGroups.filter((group) => {
+            //     let hasSelectedType = typeof group.group_type_name === "string" &&
+            //        this.dataFilter.selectedType.includes(group.group_type_name.toLowerCase())
+            //     return hasSelectedType
+            //   })
+            // }
+            // if(this.dataFilter.selectedLocation.length && this.filteredGroups.length == this.groups.length){
+            //   this.filteredGroups = this.filteredGroups.filter((group) => {
+            //     let hasSelectedLocation = typeof group.area_name === "string" && group.area_name.length &&
+            //      this.dataFilter.selectedLocation.toLowerCase().includes(group.area_name.toLowerCase());
+            //     return hasSelectedLocation
+            //   })
+            // }
+            
+            // if (
+            //   this.dataFilter.selectedDays.length ||
+            //   this.dataFilter.selectedLocation.length ||
+            //   this.dataFilter.selectedType.length ||
+            //   this.dataFilter.search.length
+            // ) {
+            //   this.filteredGroups = this.groups.filter((group) => {
+            //     let hasSelectedDay = this.dataFilter.selectedDays.includes(group.meet_day.day);
+            //     return hasSelectedDay
+            //   })
+            //   this.filteredGroups = this.filteredGroups.filter((group) => {
+            //     let hasSelectedType = typeof group.group_type_name === "string" &&
+            //        this.dataFilter.selectedType.includes(group.group_type_name.toLowerCase())
+            //     return hasSelectedType
+            //   })
+            //   this.filteredGroups = this.filteredGroups.filter((group) => {
+            //     let hasSelectedLocation = typeof group.area_name === "string" && group.area_name.length &&
+            //      this.dataFilter.selectedLocation.toLowerCase().includes(group.area_name.toLowerCase());
+            //     return hasSelectedLocation
+            //   })
+              // this.filteredGroups = this.filteredGroups.filter((group) => {
+              //   let search = this.dataFilter.search.toLowerCase();
+              //    let hasSearch = this.dataFilter.search !== "" &&
+              //      group.name.toLowerCase().includes(search);
+              //   return hasSearch
+              // })
+            // } 
+            // else {
+            //   this.filteredGroups = this.groups;
+            // }
+            //{
+              // this.filteredGroups = this.groups.filter((group) => {
+              //   let hasSelectedDay = this.dataFilter.selectedDays.includes(group.meet_day.day);
+              //   let hasSelectedType = typeof group.group_type_name === "string" &&
+              //     this.dataFilter.selectedType.includes(group.group_type_name.toLowerCase())
+              //   let hasSelectedLocation = typeof group.area_name === "string" && group.area_name.length &&
+              //   this.dataFilter.selectedLocation.toLowerCase().includes(group.area_name.toLowerCase());
+              //   let search = this.dataFilter.search.toLowerCase();
+              //   let hasSearch = this.dataFilter.search !== "" &&
+              //     group.name.toLowerCase().includes(search);
+              //   if(hasSelectedDay){
+              //     return true;
+              //   }
+              //   if(hasSelectedType){
+              //     return true;
+              //   }
+              //   if(hasSelectedLocation){
+              //     return true;
+              //   }
+              //   if(hasSearch){
+              //     return true;
+              //   }
+              //   return false;
+              // });
+            // } else {
+            //   this.filteredGroups = this.groups;
+            // }
           },
           flipped(group, index) {
             group.flipped = !group.flipped;
