@@ -1,145 +1,1097 @@
-<section class="announcement">
-    <div class="row">
-        <div class="medium-12 columns">
-            <div class="wrapper">
-                <p>Take your first step to become a LifeGroup leader today.</p>
-                <a class="small-button m-l-half" target="_blank" href="https://lifechurch.formstack.com/forms/serve">Start a LifeGroup</a>
+<style>
+    * {
+      box-sizing: border-box;
+    }
+    .filter {
+      margin: 0 10px;
+    }
+    .names {
+      border: 1px solid rgb(46, 161, 222);
+    }
+    .contact-info {
+      border: 1px solid rgb(46, 161, 222);
+    }
+    
+    h3 {
+      font-size: 16px;
+      text-transform: uppercase;
+      color: black;
+    }
+    p {
+        font-size: 18px;
+        padding: 15px 14px 0;
+    }
+    /* Float four columns side by side */
+    .column {
+      float: left;
+      /* width: 31%; */
+      width: 33.33%;
+      padding: 0 20px;
+      margin: 20px 0;
+    }
+    /* Remove extra left and right margins, due to padding */
+    .row {
+      width: 100%;
+    }
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    /* Responsive columns */
+    @media screen and (max-width: 800px) {
+      .column {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+      }
+    }
+    /* Style the counter cards */
+    .card {
+      border-radius: 6px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
+      color: black;
+      height: 509px;
+      padding: 15px;
+      text-align: center;
+      background-color: #fff;
+    }
+    .small {
+      font-size: 10px;
+    }
+    ul {
+      list-style-type: none;
+      text-align: left;
+    }
+    .flip-container {
+      -webkit-perspective: 1000;
+      -moz-perspective: 1000;
+      -o-perspective: 1000;
+      perspective: 1000;
+    }
+    .flip-container {
+      min-height: 120px;
+    }
+    .flipper {
+      -moz-transform: perspective(1000px);
+      -moz-transform-style: preserve-3d;
+      position: relative;
+    }
+    .front,
+    .back {
+      -webkit-backface-visibility: hidden;
+      -moz-backface-visibility: hidden;
+      -o-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-transition: 0.6s;
+      -webkit-transform-style: preserve-3d;
+      -moz-transition: 0.6s;
+      -moz-transform-style: preserve-3d;
+      -o-transition: 0.6s;
+      -o-transform-style: preserve-3d;
+      -ms-transition: 0.6s;
+      -ms-transform-style: preserve-3d;
+      transition: 0.6s;
+      transform-style: preserve-3d;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+    .back {
+      -webkit-transform: rotateY(-180deg);
+      -moz-transform: rotateY(-180deg);
+      -o-transform: rotateY(-180deg);
+      -ms-transform: rotateY(-180deg);
+      transform: rotateY(-180deg);
+      position: absolute;
+    }
+    .flip-container.flipped .back {
+      -webkit-transform: rotateY(0deg);
+      -moz-transform: rotateY(0deg);
+      -o-transform: rotateY(0deg);
+      -ms-transform: rotateY(0deg);
+      transform: rotateY(0deg);
+    }
+    .flip-container.flipped .front {
+      -webkit-transform: rotateY(180deg);
+      -moz-transform: rotateY(180deg);
+      -o-transform: rotateY(180deg);
+      -ms-transform: rotateY(180deg);
+      transform: rotateY(180deg);
+    }
+    .front {
+      z-index: 2;
+    }
+    .more-info-btn {
+      background: transparent;
+      border: none;
+      color: rgb(46, 161, 222);
+      font-style: italic;
+      padding: 10px 15px;
+      position: absolute;
+      right: 0;
+      text-align: right;
+      bottom: 0;
+    }
+    .back-btn {
+      background: transparent;
+      border: none;
+      color: rgb(46, 161, 222);
+      font-style: italic;
+      padding: 10px 15px;
+      position: absolute;
+      right: 0;
+      text-align: right;
+      top: 0;
+    }
+    .reg-btn {
+      background: transparent;
+      border: none;
+      bottom: 0;
+      color: rgb(46, 161, 222);
+      font-weight: bold;
+      margin-bottom: 10px;
+      position: absolute;
+      right: 28%;
+      text-align: right;
+    }
+    .more-info-btn:focus,
+    .back-btn:focus {
+      outline: none;
+    }
+    .word-search-filter {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: none;
+      border-left: #2eb2ff;
+      border-bottom: 2px solid darkgrey;
+      position: relative;
+      top: 80px;
+      /*background-color: rgba(235, 231, 231, 0.452);*/
+      background: white;
+    }
+    .input-word-search {
+      margin: 0 10px;
+    }
+    .first-name-last-name {
+      display: flex;
+      flex-direction: column;
+      padding-top: 10px;
+    }
+    .names {
+      margin: 10px 0;
+      border: none;
+      border-bottom: 2px solid darkgrey;
+    }
+    .email-phone-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .contact-info {
+      margin: 10px 0;
+      border: none;
+      border-bottom: 2px solid darkgrey;
+    }
+    .submit-register {
+      display: flex;
+      flex-direction: column;
+      margin-top: 30px;
+    }
+    .submit-btn {
+      margin-top: 20px;
+      width: 100%;
+    }
+    .fade-enter-active,
+    .fade-leave-active {
+      transition: all 0.3s ease;
+    }
+    .fade-enter,
+    .fade-leave-to {
+      transition: all 0.3s ease;
+      opacity: 0;
+    }
+    /* FIND A GROUP OPTIONS */
+    .find-a-group {
+      text-align: center;
+    }
+    .button-group-options {
+      border-radius: 10px;
+      width: 100%;
+      border: 2px solid rgb(46, 161, 222);
+      text-align: left;
+      padding: 7px 0;
+      background-color: white;
+      margin: 20px 0;
+      height: 2.7em;
+    }
+    .select-days-text {
+        color: black;
+        position: relative;
+        left: 10px;
+        font-size: 16px;
+    }
+    .select-group-text {
+      color: black;
+      font-size: 16px;
+      left: 10px;
+      position: relative;
+    }
+    .li-days {
+       padding: 6px 0;
+    }
+    .ul-days {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      padding: 0 6px;
+    }
+    /* CUSTOM CHECK BOXES FOR DAYS */
+    .container-days-checkboxes {
+      display: block;
+      position: relative;
+      cursor: pointer;
+      font-size: 17px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    .container-days-checkboxes input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+    .checkmark {
+      position: absolute;
+      top: 0;
+      right: 20px;
+      height: 25px;
+      width: 25px;
+      /*background-color: rgb(110, 107, 107);*/
+      background-color: white;
+    }
+    /* On mouse-over, add a grey background color */
+    .container-days-checkboxes:hover input ~ .checkmark {
+      background-color: #ccc;
+    }
+    /* When the checkbox is checked, add a blue background */
+    .container-days-checkboxes input:checked ~ .checkmark {
+      background-color: #2196F3;
+    }
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+    /* Show the checkmark when checked */
+    .container-days-checkboxes input:checked ~ .checkmark:after {
+      display: block;
+    }
+    /* Style the checkmark/indicator */
+    .container-days-checkboxes .checkmark:after {
+      left: 9px;
+      top: 5px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+    .li-group-text {
+      text-align: center;
+    }
+    .ul-group-type {
+      margin-top: 0;
+      margin-bottom: 10px;
+      padding: 0;
+    }
+    /* CUSTOM CHECKBOXES FOR GROUP */
+    .container-group-checkboxes {
+      display: block;
+      position: relative;
+      cursor: pointer;
+      font-size: 17px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      padding: 8px 0;
+    }
+    .container-group-checkboxes input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+    .checkmark-group {
+      position: absolute;
+      top: 0;
+      right: 20px;
+      height: 20px;
+      width: 20px;
+      background-color: rgb(110, 107, 107);
+      background-color: white;
+    }
+    /* On mouse-over, add a grey background color */
+    .container-group-checkboxes:hover input ~ .checkmark-group {
+      background-color: #ccc;
+    }
+    /* When the checkbox is checked, add a blue background */
+    .container-group-checkboxes input:checked ~ .checkmark-group {
+      background-color: #2196F3;
+    }
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark-group:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+    /* Show the checkmark when checked */
+    .container-group-checkboxes input:checked ~ .checkmark-group:after {
+       display: block;
+    }
+    /* Style the checkmark/indicator */
+    .container-group-checkboxes .checkmark-group:after {
+      left: 6px;
+      top: 2px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+         
+    .select-div {
+      position: relative;
+      margin: 0 10px;
+    }
+    select::-ms-expand {
+      display: none;
+    }
+    
+    .select-div:after {
+      content: "";
+      font: 17px;
+      color: #333;
+      -webkit-transform: rotate(90deg);
+      -moz-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+      transform: rotate(90deg);
+      right: 27px;
+      top: 12px;
+      padding: 6px 0 14px;
+      border-bottom: 1px solid #999;
+      position: absolute;
+      border: solid black;
+      border-width: 0 3px 3px 0;
+      display: inline-block;
+      padding: 3px;
+      transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+      transform: rotate(-315deg);
+      -webkit-transform: rotate(-315deg);
+    }
+    .select-div select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      display: block;
+      width: 100%;
+      height: 40px;
+      margin: 15px 0;
+      padding-left: 10px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 2px solid rgb(46, 161, 222);
+      color: black;
+    }
+    .arrow {
+      border: solid black;
+      border-width: 0 3px 3px 0;
+      display: inline-block;
+      padding: 3px;
+    }
+    .down {
+      transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+    }
+    .up {
+      transform: rotate(-315deg);
+      -webkit-transform: rotate(-315deg);
+    }
+    .menu-arrow {
+    float: right;
+    position: relative;
+    right: 25px;
+    }
+    .find-group {
+      background-color: rgba(212, 209, 209, 0.452);
+      padding: 95px 0;
+    }
+    .btn-clear-all {
+        border: 2px solid rgb(46, 161, 222);
+        border-radius: 10px;
+        padding: 8px 8px;
+        margin-left: 12px;
+    }
+      .clear-filters-btn {
+        position: relative;
+        bottom: 38px;
+      }
+    @media screen and (min-width: 1090px) {
+      .first-name-last-name {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        padding-top: 20px;
+      }
+      .email-phone-info {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        padding-top: 20px;
+      }
+      .contact-info {
+        flex: 50%;
+        margin-right: 2px;
+        width: 50%;
+      }
+      .names {
+        flex: 50%;
+        margin-right: 2px;
+        width: 50%;
+      }
+    }
+    @media screen and (min-width: 768px) {
+      p {
+        font-size: 14px !important;
+      }
+      .back-btn {
+        font-size: 14px !important;
+        padding: 0;
+      }
+      .reg-btn {
+        font-size: 14px !important;
+      }
+      .find-group {
+        display: flex;
+        justify-content: space-around;
+      }
+      .filter {
+        width: 33.33%;
+      }
+      .ul-days {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+      .select-div select {
+        margin: 20px 0;
+        height: 2.9em;
+        width: 25vw;
+      }
+      .select-group-text {
+        bottom: 0;
+        font-size: 16px;
+      }
+      .select-days-text {
+        position: relative;
+        left: 10px;
+        bottom: 0;
+        font-size: 16px;
+      }
+      .ul-group-type {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 15px;
+      }
+      .checkmark-group {
+        top: 5px;
+      }
+      .container-group-checkboxes {
+        font-size: medium;
+      }
+      .select-div:after {
+        top: 36px
+      }
+      .clear-filters-btn {
+        position: relative;
+        bottom: 58px;
+        left: 5px;
+      }
+      .btn-clear-all {
+        border: 2px solid rgb(46, 161, 222);
+        border-radius: 10px;
+        padding: 7px 8px;
+        color: black;
+      }
+      .word-search-filter {
+        position: relative;
+        top: 70px;
+        width: 50%;
+        margin-left: 8px;
+        color: black;
+      }
+    }
+    @media screen and (min-width: 1280px) {
+      .button-group-options {
+        width: 80%;
+      }
+      .ul-group-type {
+        width: 80%;
+      }
+      .ul-days {
+        width: 82%;
+      }
+    }
+    </style>
+      </head>
+      <body>
+        <h2 class="find-a-group">Find A Group</h2>
+        <div id="app" class="row">
+          <!-- fitler container -->
+          <form v-on:submit="">
+            <div class='input-word-search'>
+              <input class='word-search-filter'
+                type="text"
+                class="form-control"
+                placeholder="Enter key word  ..."
+                v-model="dataFilter.search"
+              />
             </div>
+            <div>
+              <button type="submit" class="btn btn-primary" style="display: none;">
+                Search
+              </button>
+            </div>
+          </form>
+          
+          <div class='find-group'>
+            <!-- SELECT DAYS -->
+            <div class="filter">
+              <section> 
+                <button class='button-group-options' v-on:click="dropDownDays = !dropDownDays"> <span class="select-days-text">Select Days</span><span class="menu-arrow"><i class="arrow up"></i></span></button>
+                </section>
+              <!-- <br /> -->
+              <section v-show="dropDownDays">
+              <ul class="ul-days">
+              <label class="container-days-checkboxes" v-for="day in meetingDays"
+                ><li class="li-days"><input
+                  type="checkbox"
+                  name="sc"
+                  v-model="dataFilter.selectedDays"
+                  :value="day"
+                />
+                {{day}}<span class="checkmark"></span></label
+              ></li>
+            </ul>
+          </section>
+            </div>
+            <!-- <br /> -->
+            <!-- SELECT GROUP TYPE -->
+            <div class="filter">
+              <section class='button-for-days'> 
+                <button class='button-group-options' v-on:click="dropDownGroupType = !dropDownGroupType"><span class="select-group-text"> Select Group Type</span><span class="menu-arrow"><i class="arrow up"></i></span></button>
+                </section>
+              <!-- <br /> -->
+              <transition name='fade'>
+                <section v-show='dropDownGroupType' class='drop-down-group-type'>
+                  <!-- <br /> -->
+                  <ul class='ul-group-type'>
+                  <li><label class="container-group-checkboxes"
+                    ><input
+                      type="checkbox"
+                      name="sc"
+                      v-model="dataFilter.selectedType"
+                      value="coed life group's"
+                    />
+                    <span class="group-description">Coed Life Group's</span><span class="checkmark-group"></span></label
+                  ></li>
+                  <li><label class="container-group-checkboxes"
+                    ><input
+                      type="checkbox"
+                      name="sc"
+                      v-model="dataFilter.selectedType"
+                      value="common interest groups"
+                    />
+                    Common Interest Group's<span class="checkmark-group"></span></label
+                  ></li>
+                  <li><label class="container-group-checkboxes"
+                    ><input
+                      type="checkbox"
+                      name="sc"
+                      v-model="dataFilter.selectedType"
+                      value="church"
+                    />
+                    Church<span class="checkmark-group"></span></label
+                  ></li>
+                  <li><label class="container-group-checkboxes"
+                    ><input
+                      type="checkbox"
+                      name="sc"
+                      v-model="dataFilter.selectedType"
+                      value="life group"
+                    />
+                    Life Group<span class="checkmark-group"></span></label
+                  ></li>
+                  <li><label class="container-group-checkboxes"
+                    ><input
+                      type="checkbox"
+                      name="sc"
+                      v-model="dataFilter.selectedType"
+                      value="men's life group"
+                    />
+                    Men's Life Group<span class="checkmark-group"></span></label
+                  ></li>
+                  <li><label class="container-group-checkboxes"
+                    ><input
+                      type="checkbox"
+                      name="sc"
+                      v-model="dataFilter.selectedType"
+                      value="women's life group"
+                    />
+                    Women's Life Group<span class="checkmark-group"></span></label
+                  ></li>
+                  <li><label class="container-group-checkboxes"
+                    ><input
+                      type="checkbox"
+                      name="sc"
+                      v-model="dataFilter.selectedType"
+                      value="sports & fitness life groups"
+                    />
+                    Sports & Fitness Life Groups<span class="checkmark-group"></span></label
+                  ></li>
+                </ul>
+              </section>
+              </transition>
+            </div>
+    
+            <!-- GROUP LOCATIONS -->
+            <div class="select-div">
+              <label for="selected Type"></label>
+              <select class="options-for-locations" name="" id="" v-model="dataFilter.selectedLocation">
+                <option value="" disabled selected>Location</option>
+                <option
+                  :value="value"
+                  v-for="value in locations"
+                  aria-placeholder="Location On"
+                  >{{value}}</option
+                >
+              </select>
+            </div>
+            <!-- <br /> -->
+          </div>
+              <div class="clear-filters-btn">
+              <button class='btn-clear-all' @click="clearFilters">
+                Clear Filters
+              </button>
+            </div>
+      
+              <p style="color: #2eb2ff;">
+                {{filteredGroups.length}} Life Groups Active
+              </p>
+          <!-- fitler container end-->
+          <!-- cards start -->
+          <div
+            v-for="(group, index) in filteredGroups"
+            :key="`group-key-${index}`"
+            class="column"
+          >
+            <div class="flip-container" v-bind:class="{ flipped: group.flipped }">
+              <div class="flipper">
+                <!-- front start -->
+                <div class="front card">
+                  <h3 style="height: 40px;">{{ group.name }}</h3>
+                  <img
+                    src="https://www.w3schools.com/w3images/team2.jpg"
+                    alt="Jane"
+                    style="width: 50%; margin-top: 13px;"
+                  />
+                  <h3>LED BY {{ group.owner_name }}</h3>
+                  <hr style="border: 1px solid #2ea1de; width: 75%;" />
+                  <ul>
+                    <li><b>Type:</b> {{ group.group_type_name }}</li>
+                    <li>
+                      <b>When:</b> {{ group.meet_day.raw | fieldFilter('NA')}} {{
+                      group.meet_time_name | fieldFilter('')}}
+                    </li>
+                    <li><b>Where:</b> {{ group.area_name | fieldFilter('NA')}}</li>
+                    <li>*Additional Notes</li>
+                  </ul>
+                  <slot name="front"></slot>
+                  <button class="more-info-btn" v-on:click="flipped(group, index)">
+                    <b>More Info &gt;&gt;</b>
+                  </button>
+                </div>
+                <!-- front end -->
+                <!-- back start -->
+                <div class="back card">
+                  <slot name="back"></slot>
+                  <button class="back-btn" v-on:click="flipped(group, index)">
+                    <b>&lt;&lt; Back</b>
+                  </button>
+                  <p class="" style="font-size: 18px; padding: 0 14px;">
+                    {{ group.description | fieldFilter('City Church Life Group')}}
+                  </p>
+                  <!-- form start -->
+                  <div>
+                    <transition name="fade" v-if="group.formExtended">
+                      <div>
+                        <div class="first-name-last-name">
+                          <input
+                            class="half-w names"
+                            type="text"
+                            placeholder="First Name"
+                            v-model="group.currentUser.first_name"
+                            required
+                          />
+                          <input
+                            class="half-w names"
+                            type="text"
+                            placeholder="Last Name"
+                            v-model="group.currentUser.last_name"
+                            required
+                          />
+                        </div>
+                        <div class='email-phone-info '>
+                          <input class='contact-info'
+                            type="text"
+                            placeholder="Email"
+                            v-model="group.currentUser.email"
+                            required
+                          />
+                          <input class="contact-info"
+                            type="text"
+                            placeholder="Phone"
+                            v-model="group.currentUser.phone"
+                          />
+                        </div>
+                        <!-- <div class="g-recaptcha" data-sitekey="6Lcfi_cUAAAAAJicpC4rpE6YUNKx2oUTzgvESgMM"></div> -->
+                        <button
+                          @click="addUserToGroup(group, index)"
+                          class="submit-btn"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </transition>
+                      <button v-on:click="extendForm(group, index)" class="reg-btn">
+                        REGISTER NOW
+                      </button>
+                  </div>
+                  <!-- form end -->
+                </div>
+                <!-- back end -->
+              </div>
+            </div>
+          </div>
+          <!-- cards end -->
         </div>
-    </div>
-</section>
-<div id="lg-to-the-top" class="lifegroups-search ">
-    <!-- react-empty: 29 -->
-    <div class="sticky-outer-wrapper">
-        <div class="sticky-inner-wrapper" style="position: relative; transform: translate3d(0px, 0px, 0px);">
-            <div class="lg-search-options">
-                <div class="row column small-12 small-centered lg-search-container">
-                    <div class="lg-filter-header-container">
-                        <h2 class="lg-header">Find a LifeGroup</h2>
-                        <p class="lg-found-text">
-                            #todo add number of LifeGroup active
-                        </p>
-                        <div class="lg-search-filters">
-                            <div class="lg-checkbox-group-container" tabindex="-1">
-                                <p class="mobile-days-text">Which days of the week are you available?</p>
-                                <div class="lg-checkbox-group day lg-grey">
-                                    <!-- react-text: 42 -->Meets On 
-                                    <!-- /react-text -->
-                                    <span class="lg-down-arrow-zone">
-                                        <span class="lg-down-arrow"></span>
-                                    </span>
-                                </div>
-                                <div class="lg-checkbox-container day m-b-1 lg-hide-dropwdown">
-                                    <p class="lg-checkbox-group-text desktop-days-text">Which days of the week are you available?</p>
-                                    <div class="lg-day-checkbox-container">
-                                        <div class="checkbox-div">
-                                            <input type="checkbox" id="su" value="Su" class="lg-hidden-checkbox">
-                                                <label for="su" class="lg-checkbox lg-day-checkbox">Sun</label>
-                                        </div>
-                                        <div class="checkbox-div">
-                                            <input type="checkbox" id="mo" value="Mo" class="lg-hidden-checkbox">
-                                                <label for="mo" class="lg-checkbox lg-day-checkbox">Mon</label>
-                                        </div>
-                                        <div class="checkbox-div">
-                                            <input type="checkbox" id="tu" value="Tu" class="lg-hidden-checkbox">
-                                                <label for="tu" class="lg-checkbox lg-day-checkbox">Tue</label>
-                                        </div>
-                                        <div class="checkbox-div">
-                                            <input type="checkbox" id="we" value="We" class="lg-hidden-checkbox">
-                                                <label for="we" class="lg-checkbox lg-day-checkbox">Wed</label>
-                                        </div>
-                                        <div class="checkbox-div">
-                                            <input type="checkbox" id="th" value="Th" class="lg-hidden-checkbox">
-                                                <label for="th" class="lg-checkbox lg-day-checkbox">Thur</label>
-                                        </div>
-                                        <div class="checkbox-div">
-                                            <input type="checkbox" id="fr" value="Fr" class="lg-hidden-checkbox">
-                                                <label for="fr" class="lg-checkbox lg-day-checkbox">Fri</label>
-                                        </div>
-                                        <div class="checkbox-div">
-                                            <input type="checkbox" id="sa" value="Sa" class="lg-hidden-checkbox">
-                                                <label for="sa" class="lg-checkbox lg-day-checkbox">Sat</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="Select dropdown undefined has-value Select--single">
-                                <div class="Select-control">
-                                    <div class="Select-multi-value-wrapper" id="react-select-3--value">
-                                        <div class="Select-value">
-                                            <span class="Select-value-label" role="option" aria-selected="true" id="react-select-3--value-item">Chicago</span>
-                                        </div>
-                                        <div aria-expanded="false" aria-owns="" aria-activedescendant="react-select-3--value" aria-disabled="false" class="Select-input" role="combobox" tabindex="0" style="border: 0px; width: 1px; display: inline-block;"></div>
-                                    </div>
-                                    <span class="Select-arrow-zone">
-                                        <span class="Select-arrow"></span>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="lg-checkbox-group-container" tabindex="-1">
-                                <div class="lg-checkbox-group category lg-grey">
-                                    <!-- react-text: 78 -->Categories 
-                                    <!-- /react-text -->
-                                    <span class="lg-down-arrow-zone">
-                                        <span class="lg-down-arrow"></span>
-                                    </span>
-                                </div>
-                        <div class="lg-checkbox-container category m-b-1 lg-hide-dropwdown">
-                            <p class="lg-checkbox-group-text desktop-categories-text">Categories</p>
-                            <div class="lg-category-checkbox-container">
-                                <div class="checkbox-div">
-                                    <input type="checkbox" id="everyone welcome" value="everyone welcome" class="lg-hidden-checkbox">
-                                        <label for="everyone welcome" class="lg-checkbox lg-category-checkbox lg-category-everyone-welcome">Everyone Welcome</label>
-                                    </div>
-                                    <div class="checkbox-div">
-                                        <input type="checkbox" id="women's" value="women's" class="lg-hidden-checkbox">
-                                            <label for="women's" class="lg-checkbox lg-category-checkbox lg-category-womens">Women's</label>
-                                        </div>
-                                        <div class="checkbox-div">
-                                            <input type="checkbox" id="men's" value="men's" class="lg-hidden-checkbox">
-                                                <label for="men's" class="lg-checkbox lg-category-checkbox lg-category-mens">Men's</label>
-                                            </div>
-                                            <div class="checkbox-div">
-                                                <input type="checkbox" id="single's" value="single's" class="lg-hidden-checkbox">
-                                                    <label for="single's" class="lg-checkbox lg-category-checkbox lg-category-singles">Singles</label>
-                                                </div>
-                                                <div class="checkbox-div">
-                                                    <input type="checkbox" id="married" value="married" class="lg-hidden-checkbox">
-                                                        <label for="married" class="lg-checkbox lg-category-checkbox lg-category-married">Married</label>
-                                                    </div>
-                                                    <div class="checkbox-div">
-                                                        <input type="checkbox" id="shared interest" value="shared interest" class="lg-hidden-checkbox">
-                                                            <label for="shared interest" class="lg-checkbox lg-category-checkbox lg-category-shared-interest">Shared Interests</label>
-                                                        </div>
-                                                        <div class="checkbox-div">
-                                                            <input type="checkbox" id="#LCParents" value="#LCParents" class="lg-hidden-checkbox">
-                                                                <label for="#LCParents" class="lg-checkbox lg-category-checkbox lg-category-lcparents">#LCParents</label>
-                                                            </div>
-                                                            <div class="checkbox-div">
-                                                                <input type="checkbox" id="young adults" value="young adults" class="lg-hidden-checkbox">
-                                                                    <label for="young adults" class="lg-checkbox lg-category-checkbox lg-category-young-adults">Young Adults</label>
-                                                            </div>
-                                                            <div class="checkbox-div">
-                                                                <input type="checkbox" id="college" value="college" class="lg-hidden-checkbox">
-                                                                    <label for="college" class="lg-checkbox lg-category-checkbox lg-category-college">College</label>
-                                                            </div>
-                                                            <div class="checkbox-div">
-                                                                <input type="checkbox" id="connect locally" value="connect locally" class="lg-hidden-checkbox">
-                                                                    <label for="connect locally" class="lg-checkbox lg-category-checkbox lg-category-connect-locally">Connect Locally</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                            <div class="lg-input-container">
-                                                                <div class="lg-inputs">
-                                                                    <input type="text" class="lg-form-keyword" id="lg-keyword" placeholder="Keyword" value="">
-                                                                        <input type="text" class="lg-form-age m-l-1" id="lg-age" placeholder="Age" maxlength="3" pattern="\d*" value="">
-                                                                </div>
-                                                            </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-        </div>
-    </div>
+        ​
+        <!-- production version, optimized for size and speed -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/vue" async></script> -->
+    
+        <!-- development version, includes helpful console warnings -->
+        <!-- <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script>
+      <script src="https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js"></script> -->
+        <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
+        <!-- <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <!-- <script type="text/javascript">
+        var onloadCallback = function() {
+          alert("grecaptcha is ready!");
+        };
+      </script> -->
+        <script>
+          var app = new Vue({
+            el: "#app",
+            data: {
+              dropDownDays: false,
+              dropDownGroupType: false,
+              groups: [],
+              meetingDays: new Set(),
+              locations: new Set(),
+              filteredGroups: [],
+              dataFilter: {
+                selectedDays: [],
+                selectedType: [],
+                selectedLocation: "",
+                search: "",
+              },
+            },
+            watch: {
+              "dataFilter.selectedDays": function (newValue) {
+                this.getfilteredData();
+              },
+              "dataFilter.selectedType": function (newValue) {
+                this.getfilteredData();
+              },
+              "dataFilter.selectedLocation": function (newValue) {
+                //this.clearFilters();
+                this.getfilteredData();
+              },
+              "dataFilter.search": function (newValue) {
+                this.getfilteredData();
+              },
+            },
+            filters: {
+              fieldFilter(value, defaultValue) {
+                return !value || typeof value != "string" ? defaultValue : value;
+              },
+            },
+            computed: {
+              meetingDaysList() {
+                return Object.keys(this.meetingDays);
+              },
+            },
+            methods: {
+              parseDay(meetDay) {
+                if (
+                  typeof meetDay == "string" &&
+                  meetDay.toLowerCase().includes("monday")
+                ) {
+                  return {
+                    day: "Monday",
+                    raw: meetDay,
+                  };
+                } else if (
+                  typeof meetDay == "string" &&
+                  meetDay.toLowerCase().includes("tuesday")
+                ) {
+                  return {
+                    day: "Tuesday",
+                    raw: meetDay,
+                  };
+                } else if (
+                  typeof meetDay == "string" &&
+                  meetDay.toLowerCase().includes("wednesday")
+                ) {
+                  return {
+                    day: "Wednesday",
+                    raw: meetDay,
+                  };
+                } else if (
+                  typeof meetDay == "string" &&
+                  meetDay.toLowerCase().includes("thursday")
+                ) {
+                  return {
+                    day: "Thursday",
+                    raw: meetDay,
+                  };
+                } else if (
+                  typeof meetDay == "string" &&
+                  meetDay.toLowerCase().includes("friday")
+                ) {
+                  return {
+                    day: "Friday",
+                    raw: meetDay,
+                  };
+                } else if (
+                  typeof meetDay == "string" &&
+                  meetDay.toLowerCase().includes("saturday")
+                ) {
+                  return {
+                    day: "Saturday",
+                    raw: meetDay,
+                  };
+                } else if (
+                  typeof meetDay == "string" &&
+                  meetDay.toLowerCase().includes("sunday")
+                ) {
+                  return {
+                    day: "Sunday",
+                    raw: meetDay,
+                  };
+                } else {
+                  return {
+                    day: "NA",
+                    raw: meetDay,
+                  };
+                }
+              },
+              getValue(value, groupKey) {
+                if (
+                  typeof value == "object" &&
+                  typeof value["@attributes"] !== "undefined" &&
+                  typeof value["0"] !== "undefined"
+                ) {
+                  return value["0"];
+                } else if (
+                  typeof value == "object" &&
+                  typeof value["@attributes"] !== "undefined" &&
+                  typeof value["0"] == "undefined"
+                ) {
+                  return "";
+                }
+                return value;
+              },
+              clearFilters() {
+                this.dataFilter.selectedDays = [],
+                this.dataFilter.selectedType = [],
+                this.dataFilter.selectedLocation = "",
+                this.dataFilter.search = "",
+                this.filteredGroups = this.groups;
+              },
+              getfilteredData() {
+                this.filteredGroups = this.groups;
+                if(this.dataFilter.selectedDays.length && this.filteredGroups.length == this.groups.length){
+                  console.log('selectedDays filtering groups')
+                  this.filteredGroups = this.groups.filter((group) => {
+                    let hasSelectedDay = this.dataFilter.selectedDays.includes(group.meet_day.day);
+                    return hasSelectedDay
+                  })
+                } else if(this.dataFilter.selectedDays.length && this.filteredGroups.length < this.groups.length) {
+                  console.log('selectedDays filtering filtered groups')
+                  this.filteredGroups = this.filteredGroups.filter((group) => {
+                    let hasSelectedDay = this.dataFilter.selectedDays.includes(group.meet_day.day);
+                    return hasSelectedDay
+                  })
+                }
+                //selected location
+                if(this.dataFilter.selectedLocation.length && this.filteredGroups.length == this.groups.length){
+                  console.log('selectedLocation filtering groups')
+                  this.filteredGroups = this.groups.filter((group) => {
+                    let hasSelectedLocation = typeof group.area_name === "string" && group.area_name.length &&
+                     this.dataFilter.selectedLocation.toLowerCase().includes(group.area_name.toLowerCase());
+                    return hasSelectedLocation
+                  })
+                } else if(this.dataFilter.selectedLocation.length && this.filteredGroups.length < this.groups.length) {
+                  console.log('selectedLocation filtering filtered groups')
+                  this.filteredGroups = this.filteredGroups.filter((group) => {
+                    let hasSelectedLocation = typeof group.area_name === "string" && group.area_name.length &&
+                     this.dataFilter.selectedLocation.toLowerCase().includes(group.area_name.toLowerCase());
+                    return hasSelectedLocation
+                  })
+                }
+                // selected type
+                if(this.dataFilter.selectedType.length && this.filteredGroups.length == this.groups.length){
+                  console.log('selectedLocation filtering groups')
+                  this.filteredGroups = this.groups.filter((group) => {
+                    let hasSelectedType = typeof group.group_type_name === "string" &&
+                       this.dataFilter.selectedType.includes(group.group_type_name.toLowerCase())
+                    return hasSelectedType
+                  })
+                } else if(this.dataFilter.selectedType.length && this.filteredGroups.length < this.groups.length) {
+                  console.log('selectedLocation filtering filtered groups')
+                  this.filteredGroups = this.filteredGroups.filter((group) => {
+                    let hasSelectedType = typeof group.group_type_name === "string" &&
+                       this.dataFilter.selectedType.includes(group.group_type_name.toLowerCase())
+                    return hasSelectedType
+                  })
+                }
+                // selected search
+                if(this.dataFilter.search.length && this.filteredGroups.length == this.groups.length){
+                  console.log('selectedLocation filtering groups')
+                  this.filteredGroups = this.groups.filter((group) => {
+                    let search = this.dataFilter.search.toLowerCase();
+                     let hasSearch = this.dataFilter.search !== "" &&
+                       group.name.toLowerCase().includes(search);
+                    return hasSearch
+                  })
+                } else if(this.dataFilter.search.length && this.filteredGroups.length < this.groups.length) {
+                  console.log('selectedLocation filtering filtered groups')
+                  this.filteredGroups = this.filteredGroups.filter((group) => {
+                    let search = this.dataFilter.search.toLowerCase();
+                     let hasSearch = this.dataFilter.search !== "" &&
+                       group.name.toLowerCase().includes(search);
+                    return hasSearch
+                  })
+                }
+              },
+              flipped(group, index) {
+                group.flipped = !group.flipped;
+                Vue.set(this.filteredGroups, index, group);
+              },
+              extendForm(group, index) {
+                group.formExtended = !group.formExtended;
+                Vue.set(this.filteredGroups, index, group);
+              },
+              getGroups() {
+                this.selectedDay = null;
+                fetch("https://marine-access-259619.appspot.com/api")
+                  //fetch('http://localhost:8000/api')
+                  .then((response) => response.json())
+                  .then((myJson) => {
+                    this.groups = myJson.response.items.item;
+                    this.groups = this.groups.map((group) => {
+                      let groupKeys = Object.keys(group);
+                      groupKeys.forEach((groupKey) => {
+                        group[groupKey] = this.getValue(group[groupKey], groupKey);
+                      });
+                      if (
+                        typeof group.area_name == "string" &&
+                        group.area_name.length
+                      ) {
+                        this.locations.add(group.area_name);
+                      }
+                      group.flipped = false;
+                      group.formExtended = false;
+                      group.meet_day = this.parseDay(group.meet_day_name);
+                      this.meetingDays.add(group.meet_day.day);
+                      group.currentUser = {
+                        first_name: null,
+                        last_name: null,
+                        email: null,
+                        phone: null,
+                      };
+    
+                      return group;
+                    });
+                    this.filteredGroups = this.groups;
+                  });
+              },
+              initReCaptcha() {
+                let self = this;
+                setTimeout(function () {
+                  if (typeof grecaptcha === "undefined") {
+                    self.initReCaptcha();
+                  } else {
+                    grecaptcha.render("recaptcha", {
+                      sitekey: "6Lcfi_cUAAAAAJicpC4rpE6YUNKx2oUTzgvESgMM",
+                      size: "invisible",
+                      badge: "inline",
+                      callback: self.submit,
+                    });
+                  }
+                }, 100);
+              },
+              async addUserToGroup(group, index) {
+                const formData = { ...group.currentUser };
+                formData.groupId = group.id;
+                //let recaptcha_response_value = event.target['g-recaptcha-response'].value;
+                // const response = await fetch('http://localhost:8000/api/group/add/user', {
+                //   method: 'POST',
+                //   headers: {
+                //     'Content-Type': 'application/json'
+                //     // 'Content-Type': 'application/x-www-form-urlencoded',
+                //   },
+                //   body: JSON.stringify(formData)
+                // });
+                // const data = await response.json();
+                (group.currentUser.first_name = null),
+                  (group.currentUser.last_name = null),
+                  (group.currentUser.email = null),
+                  (group.currentUser.phone = null),
+                  this.getGroups();
+              },
+            },
+            created() {
+              this.getGroups();
+            },
+            mounted() {
+              this.getfilteredData();
+              this.initReCaptcha();
+            },
+          });
+        </script>
